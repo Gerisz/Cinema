@@ -1,3 +1,8 @@
+using System.Reflection;
+using Cinema.Web.Models;
+using Cinema.Web.Models.Tables;
+using Cinema.Web.Models.Tables.EnumTables;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
