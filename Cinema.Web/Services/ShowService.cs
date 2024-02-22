@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.Web.Services
 {
-    public class ShowService
+    public class ShowService : IShowService
     {
         private CinemaDbContext _context;
 

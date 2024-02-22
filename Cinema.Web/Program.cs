@@ -1,4 +1,5 @@
 using Cinema.Web.Models;
+using Cinema.Web.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<CinemaDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IMovieService, MovieService>();
+builder.Services.AddTransient<IShowService, ShowService>();
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@ using Cinema.Web.Models.Tables;
 
 namespace Cinema.Web.Services
 {
-    public class MovieService
+    public class MovieService : IMovieService
     {
         private CinemaDbContext _context;
 
@@ -15,7 +15,11 @@ namespace Cinema.Web.Services
 
         #region Read
 
-        // TODO: public List<Image> GetTop5Posters()
+        // TODO: implement this
+        public List<NotImplementedException> GetTop5Posters()
+        {
+            throw new NotImplementedException();
+        }
 
         public List<ListMovieDTO> GetTodaysMovies()
         {
