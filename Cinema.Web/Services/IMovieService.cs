@@ -5,8 +5,8 @@ namespace Cinema.Web.Services
 {
     public interface IMovieService
     {
-        public List<NotImplementedException> GetTop5Posters();
-        public List<ListMovieDTO> GetTodaysMovies();
-        public Movie GetMovie(Int32 id);
+        public Task<List<NotImplementedException>> GetTop5PostersAsync();
+        public Task<List<ListMovieDTO>> GetTodaysMoviesAsync();
+        public Task<Movie> GetMovieAsync(Int32 id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Cinema.Web.Models;
 using Cinema.Web.Models.DTOs;
 using Cinema.Web.Models.Tables;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.Web.Services
 {
@@ -16,15 +17,16 @@ namespace Cinema.Web.Services
         #region Read
 
         // TODO: implement this
-        public List<NotImplementedException> GetTop5Posters()
+        public async Task<List<NotImplementedException>> GetTop5PostersAsync()
         {
             throw new NotImplementedException();
         }
 
-        public List<ListMovieDTO> GetTodaysMovies()
+        public async Task<List<ListMovieDTO>> GetTodaysMoviesAsync()
         {
-            return _context.Movies
+            return await _context.Movies
                 .Where(m => m.Shows.Any(s => s.Start.Date == DateTime.Today))
+                .OrderBy(m => m.Title)
                 .Select(m => new ListMovieDTO
                 {
                     Title = m.Title,
@@ -33,13 +35,13 @@ namespace Cinema.Web.Services
                         .Select(s => s.Start)
                         .ToList()
                 })
-                .ToList();
+                .ToListAsync();
         }
 
-        public Movie GetMovie(Int32 id)
+        public async Task<Movie> GetMovieAsync(Int32 id)
         {
-            return _context.Movies
-                .Single(m => m.Id == id);
+            return await _context.Movies
+                .SingleAsync(m => m.Id == id);
         }
 
         #endregion
