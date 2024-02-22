@@ -15,5 +15,7 @@ namespace Cinema.Web.Models.Tables
         // TODO: implement images
 
         public DateTime Entry { get; set; }
+
+        public virtual ICollection<Show> Shows { get; set; } = new List<Show>();
     }
 }

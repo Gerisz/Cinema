@@ -1,9 +1,15 @@
-using System.Reflection;
 using Cinema.Web.Models;
-using Cinema.Web.Models.Tables;
-using Cinema.Web.Models.Tables.EnumTables;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<CinemaDbContext>(options =>
+{
+    IConfigurationRoot configuration = builder.Configuration;
+
+    options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"));
+    options.UseLazyLoadingProxies();
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

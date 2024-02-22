@@ -15,17 +15,7 @@ namespace Cinema.Web.Models
         public DbSet<Show> Shows { get; set; } = null!;
         public DbSet<Status> Statuses { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(
-                "Data Source = (localdb)\\MSSQLLocalDB;" +
-                "Initial Catalog = CinemaCore6;" +
-                "Trusted_Connection = True;" +
-                "MultipleActiveResultSets = True");
-            optionsBuilder.UseLazyLoadingProxies();
-        }
+        public CinemaDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -12,8 +12,9 @@ namespace Cinema.Web.Models.Tables
         public Int32? HallId { get; set; }
         public virtual Hall? Hall { get; set; } = null!;
 
-        [NotMapped]
-        public (Int32 Row, Int32 Column) Position { get => throw new NotImplementedException(); }
+        
+        public Int32 Row { get; set; }
+        public Int32 Column { get; set; }
 
         public Int32 StatusId { get; set; } = (Int32)StatusEnum.Free;
         public virtual Status Status { get; set; } = null!;
