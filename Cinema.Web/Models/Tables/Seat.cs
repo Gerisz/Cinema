@@ -12,7 +12,6 @@ namespace Cinema.Web.Models.Tables
         public Int32? HallId { get; set; }
         public virtual Hall? Hall { get; set; } = null!;
 
-        
         public Int32 Row { get; set; }
         public Int32 Column { get; set; }
 

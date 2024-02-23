@@ -38,4 +38,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+using (var serviceScope = app.Services.CreateScope())
+using (var context = serviceScope.ServiceProvider.GetRequiredService<CinemaDbContext>())
+{
+    await DbInitializer.InitializeAsync(context);
+}
+
 app.Run();

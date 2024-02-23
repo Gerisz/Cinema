@@ -2,6 +2,7 @@
 using Cinema.Web.Models.Tables.EnumTables;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 //using System.Diagnostics.CodeAnalysis;
 //using System.Reflection;
 
@@ -28,6 +29,11 @@ namespace Cinema.Web.Models
                 .ForEach(t => GetType().GetMethods().Single(m => m.Name == "BuildEnumTable")
                     .MakeGenericMethod((Type)t.GetProperties().Single(p => p.Name == "EnumTable").GetValue(null)!, t)
                     .Invoke(null, new[] { builder }));*/
+        }
+
+        public Boolean Any()
+        {
+            return Halls.Any() || Movies.Any() || Seats.Any() || Shows.Any();
         }
 
         /*[SuppressMessage("CodeQuality",
