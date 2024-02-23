@@ -53,8 +53,8 @@ namespace Cinema.Web.Models
                 {
                     DateTime from = DateTime.Today.AddDays(-1);
                     DateTime to = DateTime.Today.AddDays(1);
-                    Int32 showRange = (to - from).Days;
-                    DateTime showStart = from.AddDays(Random.Next(showRange));
+                    Int32 showRange = (to - from).Days * 24;
+                    DateTime showStart = from.AddHours(Random.Next(showRange));
                     defaultShows.Add(new Show
                     {
                         Start = showStart,
