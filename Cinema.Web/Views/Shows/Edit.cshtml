@@ -1,12 +1,12 @@
 ﻿@model Cinema.Web.Models.Tables.Show
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Helyfoglalás";
 }
 
-<h1>Edit</h1>
+<h1>Helyfoglalás</h1>
 
-<h4>Show</h4>
+<h4>@Html.DisplayFor(_ => Model.Movie.Title) - @Html.DisplayFor(_ => Model.Start)</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -35,10 +35,44 @@
     </div>
 </div>
 
+<table class="seat-table table">
+    <tbody>
+        @for (Int32 i = 1; i < Model.Hall.RowCount + 1; i++)
+        {
+            <tr>
+                <td>
+                    <b>@Html.DisplayFor(_ => i)</b>
+                </td>
+                @for (Int32 j = 1; j < Model.Hall.ColumnCount + 1; j++)
+                {
+                    <td>
+                        @{
+                            var seat = Model.Seats
+                            .Single(s => s.Show == Model && s.Row == i && s.Column == j);
+                        }
+                        <div class="cat">
+                            <label>
+                                <input type="checkbox" @(seat.Status.Value == "Reserved" || seat.Status.Value == "Paid" ? "disabled" : "") />
+                                <span>@Html.DisplayFor(_ => seat.Column)</span>
+                            </label>
+                        </div>
+                    </td>
+                }
+                <td>
+                    <b>@Html.DisplayFor(_ => i)</b>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Vissza a mai műsorajánlathoz</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

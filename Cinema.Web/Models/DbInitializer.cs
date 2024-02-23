@@ -72,8 +72,8 @@ namespace Cinema.Web.Models
                         {
                             Show = show,
                             Hall = show.Hall,
-                            Row = i,
-                            Column = j,
+                            Row = i + 1,
+                            Column = j + 1,
                         });
 
             await context.AddRangeAsync(defaultMovies);
