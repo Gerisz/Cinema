@@ -1,6 +1,6 @@
 ﻿using Cinema.Web.Models;
 using Cinema.Web.Models.DTOs;
-using Cinema.Web.Models.Tables.EnumTables;
+using Cinema.Web.Models.Tables.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.Web.Services
@@ -24,7 +24,7 @@ namespace Cinema.Web.Services
                 {
                     Row = s.Row,
                     Column = s.Column,
-                    Status = s.Status.Value
+                    Status = s.Status.ToString()
                 }).ToListAsync();
         }
 
@@ -45,8 +45,8 @@ namespace Cinema.Web.Services
                 var seat = show.Seats
                     .Single(s => (s.Row, s.Column) == p && s.ShowId == showId);
 
-                (seat.StatusId, seat.ReservantName, seat.ReservantPhoneNumber) =
-                    ((Int32)StatusEnum.Reserved, name, phoneNumber);
+                (seat.Status, seat.ReservantName, seat.ReservantPhoneNumber) =
+                    (Status.Reserved, name, phoneNumber);
             });
 
         }

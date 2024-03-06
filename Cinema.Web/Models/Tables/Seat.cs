@@ -1,6 +1,5 @@
 ﻿using Cinema.Web.Models.Tables.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cinema.Web.Models.Tables
 {

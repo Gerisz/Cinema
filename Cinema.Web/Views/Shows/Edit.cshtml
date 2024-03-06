@@ -1,4 +1,5 @@
-﻿@model Cinema.Web.Models.Tables.Show
+﻿@using Cinema.Web.Models.Tables.Enums
+@model Cinema.Web.Models.Tables.Show
 
 @{
     ViewData["Title"] = "Helyfoglalás";
@@ -52,7 +53,7 @@
                         }
                         <div class="cat">
                             <label>
-                                <input type="checkbox" @(seat.Status.Value == "Reserved" || seat.Status.Value == "Paid" ? "disabled" : "") />
+                                <input type="checkbox" @(seat.Status == Status.Reserved || seat.Status == Status.Sold ? "disabled" : "") />
                                 <span>@Html.DisplayFor(_ => seat.Column)</span>
                             </label>
                         </div>
