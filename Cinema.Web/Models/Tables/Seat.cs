@@ -1,4 +1,4 @@
-﻿using Cinema.Web.Models.Tables.EnumTables;
+﻿using Cinema.Web.Models.Tables.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,8 +15,7 @@ namespace Cinema.Web.Models.Tables
         public Int32 Row { get; set; }
         public Int32 Column { get; set; }
 
-        public Int32 StatusId { get; set; } = (Int32)StatusEnum.Free;
-        public virtual Status Status { get; set; } = null!;
+        public Status Status { get; set; } = Status.Free;
 
         public String? ReservantName { get; set; }
 
