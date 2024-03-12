@@ -1,36 +1,38 @@
 ﻿using Cinema.Web.Models;
 using Cinema.Web.Models.DTOs;
+using Cinema.Web.Models.Tables;
 using Cinema.Web.Models.Tables.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.Web.Services
 {
-    public class ShowService : IShowService
+    public class CinemaService : ICinemaService
     {
         private CinemaDbContext _context;
 
-        public ShowService(CinemaDbContext context)
+        public CinemaService(CinemaDbContext context)
         {
             _context = context;
         }
 
-        #region Read
-
-        public async Task<List<ListSeatDTO>> GetSeatsByShowIdAsync(Int32 showId)
+        public async Task<List<ListShowDTO>> GetTodaysShowsAsync()
         {
-            return await _context.Seats
-                .Where(s => s.ShowId == showId)
-                .Select(s => new ListSeatDTO()
-                {
-                    Row = s.Row,
-                    Column = s.Column,
-                    Status = s.Status.ToString()
-                }).ToListAsync();
+            return await _context.Shows
+                .AsNoTracking()
+                .Include(s => s.Movie)
+                .Where(s => s.Start.Date == DateTime.Today)
+                .OrderBy(s => s.Movie.Title)
+                .ThenBy(s => s.Start)
+                .Select(ListShowDTO.Projection)
+                .AsSplitQuery()
+                .ToListAsync();
         }
 
-        #endregion
-
-        #region Update
+        public async Task<Show?> GetShowAsync(Int32 id)
+        {
+            return await _context.Shows
+                .SingleOrDefaultAsync(s => s.Id == id);
+        }
 
         public async Task ReserveSeatAsync(Int32 showId,
             List<(Int32 row, Int32 column)> positions, String name, String phoneNumber)
@@ -40,7 +42,7 @@ namespace Cinema.Web.Services
 
             var show = await _context.Shows.SingleAsync(s => s.Id == showId);
 
-            positions.ForEach(p => 
+            positions.ForEach(p =>
             {
                 var seat = show.Seats
                     .Single(s => (s.Row, s.Column) == p && s.ShowId == showId);
@@ -49,8 +51,7 @@ namespace Cinema.Web.Services
                     (Status.Reserved, name, phoneNumber);
             });
 
+            await _context.SaveChangesAsync();
         }
-
-        #endregion
     }
 }

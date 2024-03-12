@@ -12,10 +12,9 @@ builder.Services.AddDbContext<CinemaDbContext>(options =>
     options.UseLazyLoadingProxies();
 });
 
-// Add services to the container.
+builder.Services.AddTransient<ICinemaService, CinemaService>();
+
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IMovieService, MovieService>();
-builder.Services.AddTransient<IShowService, ShowService>();
 
 var app = builder.Build();
 
