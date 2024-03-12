@@ -21,7 +21,7 @@ namespace Cinema.Web.Controllers
         {
             return View(await _service.GetTodaysShowsAsync());
         }
-
+        /*
         // GET: Shows/Details/5
         public async Task<IActionResult> Details(Int32 id)
         {
@@ -30,7 +30,7 @@ namespace Cinema.Web.Controllers
                 return NotFound();
             return View(show);
         }
-        /*
+        
         // GET: Shows/Create
         public IActionResult Create()
         {
@@ -63,9 +63,6 @@ namespace Cinema.Web.Controllers
             var show = await _service.GetShowAsync(id);
             if (show == null)
                 return NotFound();
-            ViewData["HallId"] = show.HallId;
-            ViewData["MovieId"] = show.MovieId;
-            ViewData["Seats"] = show.Seats;
             return View(show);
         }
 

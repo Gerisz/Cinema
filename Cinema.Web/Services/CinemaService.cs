@@ -28,10 +28,15 @@ namespace Cinema.Web.Services
                 .ToListAsync();
         }
 
-        public async Task<Show?> GetShowAsync(Int32 id)
+        public async Task<ReserveSeatDTO?> GetShowAsync(Int32 id)
         {
             return await _context.Shows
-                .SingleOrDefaultAsync(s => s.Id == id);
+                .AsNoTracking()
+                .Include(s => s.Hall)
+                .Include(s => s.Movie)
+                .Select(ReserveSeatDTO.Projection)
+                .AsSplitQuery()
+                .SingleOrDefaultAsync(s => s.ShowId == id);
         }
 
         public async Task ReserveSeatAsync(Int32 showId,
