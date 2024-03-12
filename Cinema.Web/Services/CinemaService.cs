@@ -1,6 +1,5 @@
 ﻿using Cinema.Web.Models;
 using Cinema.Web.Models.DTOs;
-using Cinema.Web.Models.Tables;
 using Cinema.Web.Models.Tables.Enums;
 using Microsoft.EntityFrameworkCore;
 

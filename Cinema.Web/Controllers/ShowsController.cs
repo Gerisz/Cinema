@@ -63,6 +63,8 @@ namespace Cinema.Web.Controllers
             var show = await _service.GetShowAsync(id);
             if (show == null)
                 return NotFound();
+            ViewData["Title"] = show.Title;
+            ViewData["Start"] = show.Start;
             return View(show);
         }
 
@@ -80,6 +82,8 @@ namespace Cinema.Web.Controllers
             {
                 try
                 {
+                    var toReserve = dto.Seats.Where(s => s.Reserved).Select(s => (s.Row, s.Column));
+                    dto.Positions = toReserve.ToList();
                     await _service.ReserveSeatAsync(id, dto.Positions, dto.Name, dto.PhoneNumber);
                 }
                 catch (DbUpdateConcurrencyException)

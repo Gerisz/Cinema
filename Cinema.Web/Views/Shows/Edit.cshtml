@@ -14,6 +14,8 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ShowId" />
+            <input type="hidden" asp-for="Title" />
+            <input type="hidden" asp-for="Start" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Név</label>
                 <input asp-for="Name" class="form-control" />
@@ -42,10 +44,10 @@
                                 var seat = Model.Seats.SingleOrDefault(s => i == s.Row && j == s.Column);
 
                                 <td>
-                                    <div class="cat">
+                                    <div class="checkbox">
                                         <label>
-                                            <input asp-for="Seats[(i - 1) * rowCount + (j - 1)].Reserved" type="checkbox" />
-                                            <span>@Html.DisplayFor(_ => j)</span>
+                                            <input asp-for="Seats[(i - 1) * rowCount + (j - 1)].Reserved" disabled="Seats[(i - 1) * rowCount + (j - 1)].Reserved" />
+                                            @Html.DisplayFor(_ => j)
                                         </label>
                                     </div>
                                 </td>
@@ -58,17 +60,17 @@
 
                 </tbody>
             </table>
-            <div class="form-group">
-                <input type="submit" value="Helyfoglalás véglegesítése" class="btn btn-primary" />
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    <a asp-action="Index" class="btn btn-secondary">Vissza a mai műsorajánlathoz</a>
+                </div>
+                <div class="col-sm-6">
+                    <input type="submit" value="Helyfoglalás véglegesítése" class="btn btn-primary" />
+                </div>
             </div>
+
         </form>
     </div>
-</div>
-
-
-
-<div>
-    <a asp-action="Index">Vissza a mai műsorajánlathoz</a>
 </div>
 
 @section Scripts {

@@ -1,4 +1,5 @@
 ﻿using Cinema.Web.Models.Tables;
+using Cinema.Web.Models.Tables.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
@@ -74,6 +75,7 @@ namespace Cinema.Web.Models
                             Hall = show.Hall,
                             Row = i + 1,
                             Column = j + 1,
+                            Status = Random.Next(10) == 9 ? Status.Reserved : Status.Free
                         });
 
             await context.AddRangeAsync(defaultMovies);
