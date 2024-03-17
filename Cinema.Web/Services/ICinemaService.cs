@@ -7,7 +7,6 @@ namespace Cinema.Web.Services
     {
         public Task<List<ListShowDTO>> GetTodaysShowsAsync();
         public Task<ReserveSeatDTO?> GetShowAsync(Int32 id);
-        public Task ReserveSeatAsync(Int32 showId,
-            List<(Int32 row, Int32 column)> positions, String name, String phoneNumber);
+        public Task ReserveSeatsAsync(IEnumerable<Int32> seatIds, String name, String phoneNumber);
     }
 }

@@ -33,25 +33,26 @@
                         var rowCount = Model.Seats.MaxBy(s => s.Row)!.Row;
                         var columnCount = Model.Seats.MaxBy(s => s.Column)!.Column;
                     }
-                    @for (Int32 i = 1; i < rowCount + 1; i++)
+                    @for (Int32 i = 0; i < rowCount; i++)
                     {
                         <tr>
                             <td>
-                                <b>@Html.DisplayFor(_ => i)</b>
+                                <b>@(i + 1)</b>
                             </td>
-                            @for (Int32 j = 1; j < columnCount + 1; j++)
+                            @for (Int32 j = 0; j < columnCount; j++)
                             {
                                 <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input asp-for="Seats[(i - 1) * rowCount + (j - 1)].Reserved" disabled="Seats[(i - 1) * rowCount + (j - 1)].Reserved" />
-                                            @Html.DisplayFor(_ => j)
+                                            @Html.CheckBoxFor(m => m.Seats[i * columnCount + j].ToReserve,
+                                                Model.Seats[i * columnCount + j].Reserved ? new { @disabled = "" } : new { })
+                                            @(j + 1)
                                         </label>
                                     </div>
                                 </td>
                             }
                             <td>
-                                <b>@Html.DisplayFor(_ => i)</b>
+                                <b>@(i + 1)</b>
                             </td>
                         </tr>
                     }

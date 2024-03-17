@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Cinema.Web.Models.Tables;
 using Cinema.Web.Services;
 using Cinema.Web.Models.DTOs;
 
@@ -82,9 +80,8 @@ namespace Cinema.Web.Controllers
             {
                 try
                 {
-                    var toReserve = dto.Seats.Where(s => s.Reserved).Select(s => (s.Row, s.Column));
-                    dto.Positions = toReserve.ToList();
-                    await _service.ReserveSeatAsync(id, dto.Positions, dto.Name, dto.PhoneNumber);
+                    var toReserve = dto.Seats.Where(s => s.Reserved).Select(s => s.Id);
+                    await _service.ReserveSeatsAsync(toReserve, dto.Name, dto.PhoneNumber);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -10,7 +10,7 @@ namespace Cinema.Web.Models.DTOs
         public Int32 Row { get; set; }
         public Int32 Column { get; set; }
         public Boolean Reserved { get; set; }
-        public Boolean Sold { get; set; }
+        public Boolean ToReserve { get; set; } = false;
 
         public static Expression<Func<Seat, ListSeatDTO>> Projection { get; }
             = seat => new ListSeatDTO()
@@ -18,8 +18,7 @@ namespace Cinema.Web.Models.DTOs
                 Id = seat.Id,
                 Row = seat.Row,
                 Column = seat.Column,
-                Reserved = seat.Status == Status.Reserved || seat.Status == Status.Sold,
-                Sold = seat.Status == Status.Sold
+                Reserved = seat.Status == Status.Reserved || seat.Status == Status.Sold
             };
     }
 }

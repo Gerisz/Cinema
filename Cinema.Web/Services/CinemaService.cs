@@ -31,6 +31,7 @@ namespace Cinema.Web.Services
         {
             return await _context.Shows
                 .AsNoTracking()
+                .Include(s => s.Seats)
                 .Include(s => s.Hall)
                 .Include(s => s.Movie)
                 .Select(ReserveSeatDTO.Projection)
@@ -38,22 +39,14 @@ namespace Cinema.Web.Services
                 .SingleOrDefaultAsync(s => s.ShowId == id);
         }
 
-        public async Task ReserveSeatAsync(Int32 showId,
-            List<(Int32 row, Int32 column)> positions, String name, String phoneNumber)
+        public async Task ReserveSeatsAsync(IEnumerable<Int32> seatIds, String name, String phoneNumber)
         {
-            if (positions.Count > 6)
+            if (seatIds.Count() > 6)
                 throw new ArgumentException("Can't reserve more than 6 seats");
 
-            var show = await _context.Shows.SingleAsync(s => s.Id == showId);
-
-            positions.ForEach(p =>
-            {
-                var seat = show.Seats
-                    .Single(s => (s.Row, s.Column) == p && s.ShowId == showId);
-
-                (seat.Status, seat.ReservantName, seat.ReservantPhoneNumber) =
-                    (Status.Reserved, name, phoneNumber);
-            });
+            await _context.Seats.Where(s => seatIds.Contains(s.Id)).ForEachAsync(p =>
+                (p.Status, p.ReservantName, p.ReservantPhoneNumber) =
+                    (Status.Reserved, name, phoneNumber));
 
             await _context.SaveChangesAsync();
         }

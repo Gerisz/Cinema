@@ -9,7 +9,6 @@ namespace Cinema.Web.Models.DTOs
         public String Title { get; set; } = null!;
         public DateTime Start { get; set; }
         public List<ListSeatDTO> Seats { get; set; } = [];
-        public List<(Int32 Row, Int32 Column)> Positions { get; set; } = [];
         public String Name { get; set; } = null!;
         public String PhoneNumber { get; set; } = null!;
 
