@@ -41,8 +41,6 @@
                             </td>
                             @for (Int32 j = 1; j < columnCount + 1; j++)
                             {
-                                var seat = Model.Seats.SingleOrDefault(s => i == s.Row && j == s.Column);
-
                                 <td>
                                     <div class="checkbox">
                                         <label>

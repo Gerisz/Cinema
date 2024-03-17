@@ -14,7 +14,7 @@ namespace Cinema.Web.Models
         {
             await context.Database.MigrateAsync();
 
-            if (context.Any())
+            if (context.Shows.Any(s => s.Start.Date == DateTime.Today))
                 return;
 
             // await context.Statuses.ExecuteDeleteAsync();
