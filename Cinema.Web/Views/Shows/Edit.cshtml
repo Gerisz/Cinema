@@ -1,21 +1,15 @@
 ﻿@using Cinema.Web.Models.Tables.Enums
 @model Cinema.Web.Models.DTOs.ReserveSeatDTO
 
-@{
-    ViewData["Title"] = "Helyfoglalás";
-}
-
 <h1>Helyfoglalás</h1>
 
-<h4>@Html.DisplayFor(_ => Model.Title) - @Html.DisplayFor(_ => Model.Start)</h4>
+<h4>@Html.DisplayFor(_ => ViewData["Title"]) - @Html.DisplayFor(_ => ViewData["Start"])</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ShowId" />
-            <input type="hidden" asp-for="Title" />
-            <input type="hidden" asp-for="Start" />
+            @Html.HiddenFor(m => m.ShowId)
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Név</label>
                 <input asp-for="Name" class="form-control" />
@@ -30,8 +24,8 @@
             <table class="seat-table table">
                 <tbody>
                     @{
-                        var rowCount = Model.Seats.MaxBy(s => s.Row)!.Row;
-                        var columnCount = Model.Seats.MaxBy(s => s.Column)!.Column;
+                        var rowCount = Model.HallSize.RowCount;
+                        var columnCount = Model.HallSize.ColumnCount;
                     }
                     @for (Int32 i = 0; i < rowCount; i++)
                     {
@@ -41,11 +35,13 @@
                             </td>
                             @for (Int32 j = 0; j < columnCount; j++)
                             {
+                                var index = i * columnCount + j;
                                 <td>
                                     <div class="checkbox">
                                         <label>
-                                            @Html.CheckBoxFor(m => m.Seats[i * columnCount + j].ToReserve,
-                                                Model.Seats[i * columnCount + j].Reserved ? new { @disabled = "" } : new { })
+                                            @Html.HiddenFor(m => m.Seats[index].Id)
+                                            @Html.CheckBoxFor(m => m.Seats[index].ToReserve,
+                                                     Model.Seats[index].Reserved ? new { @disabled = "" } : new { })
                                             @(j + 1)
                                         </label>
                                     </div>

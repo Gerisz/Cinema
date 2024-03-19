@@ -1,7 +1,9 @@
 ﻿using Cinema.Web.Models;
 using Cinema.Web.Models.DTOs;
+using Cinema.Web.Models.Tables;
 using Cinema.Web.Models.Tables.Enums;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 
 namespace Cinema.Web.Services
 {
@@ -14,29 +16,21 @@ namespace Cinema.Web.Services
             _context = context;
         }
 
-        public async Task<List<ListShowDTO>> GetTodaysShowsAsync()
+        public IEnumerable<Show> GetTodaysShows()
         {
-            return await _context.Shows
+            return _context.Shows
                 .AsNoTracking()
                 .Include(s => s.Movie)
                 .Where(s => s.Start.Date == DateTime.Today)
                 .OrderBy(s => s.Movie.Title)
                 .ThenBy(s => s.Start)
-                .Select(ListShowDTO.Projection)
-                .AsSplitQuery()
-                .ToListAsync();
+                .AsSplitQuery();
         }
 
-        public async Task<ReserveSeatDTO?> GetShowAsync(Int32 id)
+        public async Task<Show?> GetShowAsync(Int32 id)
         {
             return await _context.Shows
-                .AsNoTracking()
-                .Include(s => s.Seats)
-                .Include(s => s.Hall)
-                .Include(s => s.Movie)
-                .Select(ReserveSeatDTO.Projection)
-                .AsSplitQuery()
-                .SingleOrDefaultAsync(s => s.ShowId == id);
+                .FindAsync(id);
         }
 
         public async Task ReserveSeatsAsync(IEnumerable<Int32> seatIds, String name, String phoneNumber)

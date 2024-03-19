@@ -17,7 +17,10 @@ namespace Cinema.Web.Controllers
         // GET: Shows
         public async Task<IActionResult> Index()
         {
-            return View(await _service.GetTodaysShowsAsync());
+            return View(_service
+                .GetTodaysShows()
+                .AsQueryable()
+                .Select(ListShowDTO.Projection));
         }
         /*
         // GET: Shows/Details/5
@@ -61,9 +64,10 @@ namespace Cinema.Web.Controllers
             var show = await _service.GetShowAsync(id);
             if (show == null)
                 return NotFound();
-            ViewData["Title"] = show.Title;
+            var reserveSeatDTO = new ReserveSeatDTO(show);
+            ViewData["Title"] = show.Movie.Title;
             ViewData["Start"] = show.Start;
-            return View(show);
+            return View(reserveSeatDTO);
         }
 
         // POST: Shows/Edit/5
@@ -80,7 +84,9 @@ namespace Cinema.Web.Controllers
             {
                 try
                 {
-                    var toReserve = dto.Seats.Where(s => s.Reserved).Select(s => s.Id);
+                    var toReserve = dto.Seats
+                        .Where(s => s.ToReserve && !s.Reserved)
+                        .Select(s => s.Id);
                     await _service.ReserveSeatsAsync(toReserve, dto.Name, dto.PhoneNumber);
                 }
                 catch (DbUpdateConcurrencyException)

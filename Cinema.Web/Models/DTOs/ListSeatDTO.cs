@@ -7,8 +7,6 @@ namespace Cinema.Web.Models.DTOs
     public class ListSeatDTO
     {
         public Int32 Id { get; set; }
-        public Int32 Row { get; set; }
-        public Int32 Column { get; set; }
         public Boolean Reserved { get; set; }
         public Boolean ToReserve { get; set; } = false;
 
@@ -16,8 +14,6 @@ namespace Cinema.Web.Models.DTOs
             = seat => new ListSeatDTO()
             {
                 Id = seat.Id,
-                Row = seat.Row,
-                Column = seat.Column,
                 Reserved = seat.Status == Status.Reserved || seat.Status == Status.Sold
             };
     }
