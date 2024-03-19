@@ -2,23 +2,27 @@
 @model Cinema.Web.Models.DTOs.ReserveSeatDTO
 
 <h1>Helyfoglalás</h1>
-
-<h4>@Html.DisplayFor(_ => ViewData["Title"]) - @Html.DisplayFor(_ => ViewData["Start"])</h4>
+@{
+    var title = ViewData["Title"]!.ToString();
+    var start = ViewData["Start"]!.ToString();
+}
+<h4>@Html.DisplayFor(_ => title) - @Html.DisplayFor(_ => start)</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @using (Html.BeginForm("Edit"))
+        {
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             @Html.HiddenFor(m => m.ShowId)
             <div class="form-group">
-                <label asp-for="Name" class="control-label">Név</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-label" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label">Telefonszám</label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" }))
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-label" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
             </div>
 
             <table class="seat-table table">
@@ -41,7 +45,9 @@
                                         <label>
                                             @Html.HiddenFor(m => m.Seats[index].Id)
                                             @Html.CheckBoxFor(m => m.Seats[index].ToReserve,
-                                                     Model.Seats[index].Reserved ? new { @disabled = "" } : new { })
+                                                     Model.Seats[index].Reserved
+                                                     ? new { @disabled = "" }
+                                                     : new { })
                                             @(j + 1)
                                         </label>
                                     </div>
@@ -57,14 +63,15 @@
             </table>
             <div class="row form-group">
                 <div class="col-sm-6">
-                    <a asp-action="Index" class="btn btn-secondary">Vissza a mai műsorajánlathoz</a>
+                    @Html.ActionLink("Vissza a mai műsorajánlathoz", "Index", "Shows",
+                             new(), new { @class = "btn btn-secondary" })
                 </div>
                 <div class="col-sm-6">
-                    <input type="submit" value="Helyfoglalás véglegesítése" class="btn btn-primary" />
+                    <input type="submit" value="Helyfoglalás véglegesítése"
+                           class="btn btn-primary" />
                 </div>
             </div>
-
-        </form>
+        }
     </div>
 </div>
 

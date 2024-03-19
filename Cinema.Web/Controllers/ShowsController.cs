@@ -65,8 +65,8 @@ namespace Cinema.Web.Controllers
             if (show == null)
                 return NotFound();
             var reserveSeatDTO = new ReserveSeatDTO(show);
-            ViewData["Title"] = show.Movie.Title;
-            ViewData["Start"] = show.Start;
+            ViewData["Title"] = show.Movie.Title.ToString();
+            ViewData["Start"] = show.Start.ToString();
             return View(reserveSeatDTO);
         }
 
@@ -95,6 +95,10 @@ namespace Cinema.Web.Controllers
                         return NotFound();
                     else
                         throw;
+                }
+                catch (ArgumentException)
+                {
+                    return BadRequest("Can't reserve more than 6 seats");
                 }
                 return RedirectToAction(nameof(Index));
             }

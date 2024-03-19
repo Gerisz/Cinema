@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<Cinema.Web.Models.DTOs.ListShowDTO>
 
-@{
-    ViewData["Title"] = "Mai műsorajánlat";
-}
-
 <h1>Mai műsorajánlat</h1>
 
 <table class="table">
@@ -25,7 +21,8 @@
                     @Html.DisplayFor(modelItem => item.Start)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Foglalás</a>
+                    @Html.ActionLink("Foglalás", $"Edit", "Shows",
+                             new { @id = $"{item.Id}" }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
         }
