@@ -15,12 +15,12 @@
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             @Html.HiddenFor(m => m.ShowId)
             <div class="form-group">
-                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" }):
                 @Html.TextBoxFor(m => m.Name, new { @class = "form-label" })
                 @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" }))
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" }):
                 @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-label" })
                 @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
             </div>
@@ -41,16 +41,29 @@
                             {
                                 var index = i * columnCount + j;
                                 <td>
-                                    <div class="checkbox">
-                                        <label>
-                                            @Html.HiddenFor(m => m.Seats[index].Id)
-                                            @Html.CheckBoxFor(m => m.Seats[index].ToReserve,
-                                                     Model.Seats[index].Reserved
-                                                     ? new { @disabled = "" }
-                                                     : new { })
-                                            @(j + 1)
-                                        </label>
-                                    </div>
+                                    @Html.HiddenFor(m => m.Seats[index].Id)
+                                    @Html.CheckBoxFor(m => m.Seats[index].ToReserve,
+                                             Model.Seats[index].Reserved
+                                             ? new
+                                             {
+                                                 @class = "btn-check",
+                                                 @disabled = ""
+                                             }
+                                             : new
+                                             {
+                                                 @class = "btn-check"
+                                             })
+                                    @Html.LabelFor(m => m.Seats[index].ToReserve,
+                                             (j + 1).ToString(),
+                                             Model.Seats[index].Reserved
+                                             ? new
+                                             {
+                                                 @class = "btn btn-outline-secondary"
+                                             }
+                                             : new
+                                             {
+                                                 @class = "btn btn-outline-dark"
+                                             })
                                 </td>
                             }
                             <td>

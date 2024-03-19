@@ -1,4 +1,5 @@
 ﻿using Cinema.Web.Models.Tables;
+using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace Cinema.Web.Models.DTOs
@@ -8,7 +9,9 @@ namespace Cinema.Web.Models.DTOs
         public Int32 ShowId { get; set; }
         public List<ListSeatDTO> Seats { get; set; } = [];
         public (Int32 RowCount, Int32 ColumnCount) HallSize { get; set; }
+        [DisplayName("Név")]
         public String Name { get; set; } = null!;
+        [DisplayName("Telefonszám")]
         public String PhoneNumber { get; set; } = null!;
 
         public ReserveSeatDTO() { }
