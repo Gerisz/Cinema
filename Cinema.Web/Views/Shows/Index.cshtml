@@ -21,8 +21,11 @@
                     @Html.DisplayFor(modelItem => item.Start)
                 </td>
                 <td>
-                    @Html.ActionLink("Foglalás", $"Edit", "Shows",
-                             new { @id = $"{item.Id}" }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Foglalás", "Edit", "Shows",
+                             new { @id = $"{item.Id}" },
+                             item.FreeSeatCount <= 0
+                             ? new { @class = "btn btn-primary" }
+                             : new { @class = "btn btn-primary", @disabled = "" })
                 </td>
             </tr>
         }

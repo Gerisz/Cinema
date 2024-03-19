@@ -55,14 +55,10 @@
                                              })
                                     @Html.LabelFor(m => m.Seats[index].ToReserve,
                                              (j + 1).ToString(),
-                                             Model.Seats[index].Reserved
-                                             ? new
+                                             new
                                              {
-                                                 @class = "btn btn-outline-secondary"
-                                             }
-                                             : new
-                                             {
-                                                 @class = "btn btn-outline-dark"
+                                                 @class = "btn btn-outline-" +
+                                             (Model.Seats[index].Reserved ? "secondary" : "dark")
                                              })
                                 </td>
                             }
