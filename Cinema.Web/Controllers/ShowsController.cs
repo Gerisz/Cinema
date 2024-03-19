@@ -13,16 +13,15 @@ namespace Cinema.Web.Controllers
         {
             _service = service;
         }
-
+        /*
         // GET: Shows
         public async Task<IActionResult> Index()
         {
-            return View(_service
-                .GetTodaysShows()
+            return View(_service.GetTodaysShows()
                 .AsQueryable()
                 .Select(ListShowDTO.Projection));
         }
-        /*
+
         // GET: Shows/Details/5
         public async Task<IActionResult> Details(Int32 id)
         {
@@ -64,7 +63,7 @@ namespace Cinema.Web.Controllers
             var show = await _service.GetShowAsync(id);
             if (show == null)
                 return NotFound();
-            var reserveSeatDTO = new ReserveSeatDTO(show);
+            var reserveSeatDTO = new SeatReserve(show);
             ViewData["Title"] = show.Movie.Title.ToString();
             ViewData["Start"] = show.Start.ToString();
             return View(reserveSeatDTO);
@@ -75,7 +74,7 @@ namespace Cinema.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Int32 id, ReserveSeatDTO dto)
+        public async Task<IActionResult> Edit(Int32 id, SeatReserve dto)
         {
             if (id != dto.ShowId)
                 return NotFound();
@@ -100,7 +99,7 @@ namespace Cinema.Web.Controllers
                 {
                     return BadRequest("Can't reserve more than 6 seats");
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Movies");
             }
             return View(dto);
         }

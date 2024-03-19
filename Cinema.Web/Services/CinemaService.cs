@@ -1,9 +1,7 @@
 ﻿using Cinema.Web.Models;
-using Cinema.Web.Models.DTOs;
 using Cinema.Web.Models.Tables;
 using Cinema.Web.Models.Tables.Enums;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Versioning;
 
 namespace Cinema.Web.Services
 {
@@ -16,15 +14,26 @@ namespace Cinema.Web.Services
             _context = context;
         }
 
-        public IEnumerable<Show> GetTodaysShows()
+        public async Task<Movie?> GetMovieByIdAsync(Int32 id)
         {
-            return _context.Shows
+            return await _context.Movies.FindAsync(id);
+        }
+
+        public IEnumerable<Movie> GetTodaysMovies()
+        {
+            return _context.Movies
                 .AsNoTracking()
-                .Include(s => s.Movie)
-                .Where(s => s.Start.Date == DateTime.Today)
-                .OrderBy(s => s.Movie.Title)
-                .ThenBy(s => s.Start)
+                .Include(s => s.Shows)
+                .Where(s => s.Shows
+                    .Any(s => s.Start.Date == DateTime.Today))
+                .OrderBy(s => s.Title)
                 .AsSplitQuery();
+        }
+
+        public async Task<IEnumerable<Show>> GetTodaysShowsByMovieIdAsync(Int32 movieId)
+        {
+            var movie = await _context.Movies.FindAsync(movieId);
+            return movie != null ? movie.Shows : [];
         }
 
         public async Task<Show?> GetShowAsync(Int32 id)

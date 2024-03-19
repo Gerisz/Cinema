@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Cinema.Web.Models.DTOs.MovieIndex>
+
+<h1>Mai program</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Starts)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(_ => item.Title)
+                </td>
+                <td>
+                    <ul class="list-group list-group-horizontal">
+                        @foreach (var start in item.Starts)
+                        {
+                            var time = start.ToShortTimeString();
+                            <li class="list-group-item">
+                                @Html.DisplayFor(_ => time)
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.ActionLink("Részletek és foglalás", "Details", "Movies",
+                             new { @id = $"{item.Id}" }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

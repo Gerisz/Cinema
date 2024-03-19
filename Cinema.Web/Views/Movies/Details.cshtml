@@ -1,0 +1,32 @@
+﻿@model Cinema.Web.Models.DTOs.MovieDetails
+
+
+<h1>@Html.DisplayFor(model => model.Title)</h1>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Director)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Director)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Synopsis)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Synopsis)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Length)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Length)
+    </dd>
+</dl>
+<hr />
+@foreach (var start in Model.Starts)
+{
+    @Html.ActionLink(start.Start.ToShortTimeString(), "Edit", "Shows",
+            new { @id = $"{start.Id}" },
+            new { @class = "btn btn-primary" })
+}

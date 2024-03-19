@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cinema.Web.Models.DTOs.ListShowDTO>
+﻿@model IEnumerable<Cinema.Web.Models.DTOs.ShowIndex>
 
 <h1>Mai műsorajánlat</h1>
 
@@ -15,10 +15,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    @Html.DisplayFor(_ => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Start)
+                    @Html.DisplayFor(_ => item.Start)
                 </td>
                 <td>
                     @Html.ActionLink("Foglalás", "Edit", "Shows",

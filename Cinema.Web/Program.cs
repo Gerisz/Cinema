@@ -35,7 +35,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Shows}/{action=Index}/{id?}");
+    pattern: "{controller=Movies}/{action=Index}/{id?}");
 
 using (var serviceScope = app.Services.CreateScope())
 using (var context = serviceScope.ServiceProvider.GetRequiredService<CinemaDbContext>())
