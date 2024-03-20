@@ -37,6 +37,8 @@ namespace Cinema.Web.Controllers
                 return NotFound();
             }
 
+            movie.Shows = movie.Shows.Where(s => s.Start.Date ==  DateTime.Today).ToList();
+
             return View(MovieDetails.Create(movie));
         }
         /*
