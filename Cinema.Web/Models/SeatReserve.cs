@@ -23,7 +23,6 @@ namespace Cinema.Web.Models
         public static Expression<Func<Show, SeatReserve>> Projection { get; }
             = show => new SeatReserve()
             {
-
                 ShowId = show.Id,
                 Seats = show.Seats
                     .AsQueryable()
