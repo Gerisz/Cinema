@@ -42,7 +42,8 @@ namespace Cinema.Data.Services
                 .FindAsync(id);
         }
 
-        public async Task ReserveSeatsAsync(IEnumerable<Int32> seatIds, String name, String phoneNumber)
+        public async Task ReserveSeatsAsync
+            (IEnumerable<Int32> seatIds, String name, String phoneNumber)
         {
             if (seatIds.Count() > 6)
                 throw new ArgumentException("Can't reserve more than 6 seats");

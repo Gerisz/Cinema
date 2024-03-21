@@ -8,7 +8,7 @@ namespace Cinema.Data.Models
 
     public static class DbInitializer
     {
-        private static readonly Random Random = new Random();
+        private static readonly Random _random = new();
 
         public static async Task InitializeAsync(CinemaDbContext context, String imageDirectory)
         {
@@ -57,18 +57,18 @@ namespace Cinema.Data.Models
             List<Show> defaultShows = [];
             foreach (Movie movie in defaultMovies)
             {
-                Int32 showCount = Random.Next(2, 10 + 1);
+                Int32 showCount = _random.Next(2, 10 + 1);
                 for (int i = 0; i < showCount; i++)
                 {
                     DateTime from = DateTime.Today.AddDays(-1);
                     DateTime to = DateTime.Today.AddDays(1);
                     Int32 showRange = (to - from).Days * 24;
-                    DateTime showStart = from.AddHours(Random.Next(showRange));
+                    DateTime showStart = from.AddHours(_random.Next(showRange));
                     defaultShows.Add(new Show
                     {
                         Start = showStart,
                         Movie = movie,
-                        Hall = defaultHalls[Random.Next(defaultHalls.Count())]
+                        Hall = defaultHalls[_random.Next(defaultHalls.Count())]
                     });
                 }
             }
@@ -83,7 +83,7 @@ namespace Cinema.Data.Models
                             Hall = show.Hall,
                             Row = i + 1,
                             Column = j + 1,
-                            Status = Random.Next(10) == 9 ? Status.Reserved : Status.Free
+                            Status = _random.Next(10) == 9 ? Status.Reserved : Status.Free
                         });
 
             await context.AddRangeAsync(defaultMovies);
