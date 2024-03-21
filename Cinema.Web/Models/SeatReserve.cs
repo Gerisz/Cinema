@@ -8,7 +8,7 @@ namespace Cinema.Web.Models
     public class SeatReserve
     {
         public int ShowId { get; set; }
-        public IEnumerable<SeatIndex> Seats { get; set; } = [];
+        public List<SeatIndex> Seats { get; set; } = [];
         public (int RowCount, int ColumnCount) HallSize { get; set; }
 
         [DisplayName("Név")]
@@ -26,7 +26,8 @@ namespace Cinema.Web.Models
                     .AsQueryable()
                     .OrderBy(s => s.Row)
                     .ThenBy(s => s.Column)
-                    .Select(SeatIndex.Projection),
+                    .Select(SeatIndex.Projection)
+                    .ToList(),
                 HallSize = new(show.Hall.RowCount, show.Hall.ColumnCount)
             };
 
