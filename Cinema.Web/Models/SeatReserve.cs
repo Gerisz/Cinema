@@ -18,8 +18,6 @@ namespace Cinema.Web.Models
         [DisplayName("Telefonszám")]
         public string PhoneNumber { get; set; } = null!;
 
-        public SeatReserve() { }
-
         public static Expression<Func<Show, SeatReserve>> Projection { get; }
             = show => new SeatReserve()
             {
