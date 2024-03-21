@@ -1,5 +1,5 @@
-using Cinema.Web.Models;
-using Cinema.Web.Services;
+using Cinema.Data.Models;
+using Cinema.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
