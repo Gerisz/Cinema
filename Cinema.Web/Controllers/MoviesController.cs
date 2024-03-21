@@ -14,6 +14,14 @@ namespace Cinema.Web.Controllers
             _service = service;
         }
 
+        public async Task<IActionResult?> DisplayImage(Int32 id)
+        {
+            var movie = await _service.GetMovieByIdAsync(id);
+            if (movie != null && movie.Image != null)
+                return File(movie.Image, "image/png");
+            return null;
+        }
+
         // GET: Movies
         public async Task<IActionResult> Index()
         {
@@ -37,7 +45,7 @@ namespace Cinema.Web.Controllers
                 return NotFound();
             }
 
-            movie.Shows = movie.Shows.Where(s => s.Start.Date ==  DateTime.Today).ToList();
+            movie.Shows = movie.Shows.Where(s => s.Start.Date == DateTime.Today).ToList();
 
             return View(MovieDetails.Create(movie));
         }

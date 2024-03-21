@@ -3,6 +3,24 @@
 <h1>Mai program</h1>
 
 <table class="table">
+    <tr>
+        @{
+            var movies = Model.Where(m => m.Image != null)
+            .OrderBy(m => m.Entry)
+            .Take(5)
+            .OrderBy(m => m.Title);
+            foreach (var movie in movies)
+            {
+                <td>
+                    <img src="@Url.Action("DisplayImage", "Movies", new { id = movie.Id })"
+                         class="item" id="image"/>
+                </td>
+            }
+        }
+    </tr>
+</table>
+
+<table class="table">
     <thead>
         <tr>
             <th>

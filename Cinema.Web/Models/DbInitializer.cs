@@ -10,19 +10,27 @@ namespace Cinema.Web.Models
     {
         private static readonly Random Random = new Random();
 
-        public static async Task InitializeAsync(CinemaDbContext context/*, String imageDirectory*/)
+        public static async Task InitializeAsync(CinemaDbContext context, String imageDirectory)
         {
             await context.Database.MigrateAsync();
 
             if (context.Shows.Any(s => s.Start.Date == DateTime.Today))
                 return;
 
-            // await context.Statuses.ExecuteDeleteAsync();
+            var images = Directory.GetFiles(imageDirectory);
 
             List<Movie> defaultMovies =
                 JsonSerializer.Deserialize<List<Movie>>(
                     File.ReadAllText("Models\\DefaultValues\\movies.json")
                 ) ?? [];
+
+            Int32 index = 0;
+
+            defaultMovies
+                .OrderBy(m => m.Title)
+                .ToList()
+                .ForEach(m => m.Image = File.Exists(images[index])
+                    ? File.ReadAllBytes(images[index++]) : null);
 
             List<Hall> defaultHalls =
                 [

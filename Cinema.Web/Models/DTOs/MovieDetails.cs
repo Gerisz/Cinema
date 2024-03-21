@@ -17,6 +17,7 @@ namespace Cinema.Web.Models.DTOs
         public Int32 Length { get; set; }
         [DisplayName("Mai kezdés időpontjai")]
         public IEnumerable<ShowIndex> Starts { get; set; } = [];
+        public Byte[]? Image { get; set; }
 
         public static Expression<Func<Movie, MovieDetails>> Projection { get; }
             = movie => new MovieDetails()
@@ -28,7 +29,8 @@ namespace Cinema.Web.Models.DTOs
                 Length = movie.Length,
                 Starts = movie.Shows
                     .Select(ShowIndex.Projection)
-                    .OrderBy(s => s.Start)
+                    .OrderBy(s => s.Start),
+                Image = movie.Image
             };
 
         public static MovieDetails Create(Movie movie) => Projection.Compile().Invoke(movie);

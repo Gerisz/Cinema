@@ -40,7 +40,10 @@ app.MapControllerRoute(
 using (var serviceScope = app.Services.CreateScope())
 using (var context = serviceScope.ServiceProvider.GetRequiredService<CinemaDbContext>())
 {
-    await DbInitializer.InitializeAsync(context);
+    String? imageSource = app.Configuration.GetValue<String>("ImageSource");
+    if (imageSource == null)
+        throw new ArgumentNullException(nameof(imageSource));
+    await DbInitializer.InitializeAsync(context, imageSource);
 }
 
 app.Run();
