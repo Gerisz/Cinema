@@ -17,10 +17,5 @@ namespace Cinema.Data.Models
         {
             base.OnModelCreating(builder);
         }
-
-        public Boolean Any()
-        {
-            return Halls.Any() || Movies.Any() || Seats.Any() || Shows.Any();
-        }
     }
 }
