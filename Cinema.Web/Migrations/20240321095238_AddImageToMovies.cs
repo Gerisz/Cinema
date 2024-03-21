@@ -14,8 +14,7 @@ namespace Cinema.Web.Migrations
                 name: "Image",
                 table: "Movies",
                 type: "varbinary(max)",
-                nullable: false,
-                defaultValue: new byte[0]);
+                nullable: true);
         }
 
         /// <inheritdoc />

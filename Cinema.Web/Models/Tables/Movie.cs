@@ -12,7 +12,7 @@ namespace Cinema.Web.Models.Tables
 
         public Int32 Length { get; set; }
 
-        public Byte[] Image { get; set; } = [];
+        public Byte[]? Image { get; set; }
 
         public DateTime Entry { get; set; }
 

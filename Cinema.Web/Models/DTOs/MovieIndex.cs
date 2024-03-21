@@ -11,6 +11,7 @@ namespace Cinema.Web.Models.DTOs
         public String Title { get; set; } = null!;
         [DisplayName("Kezdés időpontjai")]
         public IEnumerable<DateTime> Starts { get; set; } = [];
+        public Byte[]? Image { get; set; }
 
         public static Expression<Func<Movie, MovieIndex>> Projection { get; }
             = movie => new MovieIndex()

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cinema.Web.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    [Migration("20240321095015_AddImageToMovies")]
+    [Migration("20240321095238_AddImageToMovies")]
     partial class AddImageToMovies
     {
         /// <inheritdoc />
@@ -136,7 +136,6 @@ namespace Cinema.Web.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Length")
