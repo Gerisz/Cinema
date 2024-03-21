@@ -63,7 +63,7 @@ namespace Cinema.Web.Controllers
             var show = await _service.GetShowAsync(id);
             if (show == null)
                 return NotFound();
-            var reserveSeatDTO = new SeatReserve(show);
+            var reserveSeatDTO = SeatReserve.Create(show);
             ViewData["Title"] = show.Movie.Title.ToString();
             ViewData["Start"] = show.Start.ToString();
             return View(reserveSeatDTO);
