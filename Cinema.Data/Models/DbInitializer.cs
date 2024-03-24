@@ -21,7 +21,9 @@ namespace Cinema.Data.Models
 
             List<Movie> defaultMovies =
                 JsonSerializer.Deserialize<List<Movie>>(
-                    File.ReadAllText("Models\\DefaultValues\\movies.json")
+                    File.ReadAllText(
+                        Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                        "Models\\DefaultValues\\movies.json"))
                 ) ?? [];
 
             Int32 index = 0;
