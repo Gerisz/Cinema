@@ -20,7 +20,7 @@
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-6 form-floating">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.EditorFor(m => m.PhoneNumber, new { @class = "form-control" })
                     @Html.LabelFor(m => m.PhoneNumber)
                     @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
