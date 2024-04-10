@@ -12,10 +12,12 @@ namespace Cinema.Web.Models
         public (int RowCount, int ColumnCount) HallSize { get; set; }
 
         [DisplayName("Név")]
+        [Required(ErrorMessage = "Név megadása kötelező!")]
         public string Name { get; set; } = null!;
 
         [DataType(DataType.PhoneNumber)]
         [DisplayName("Telefonszám")]
+        [Required(ErrorMessage = "Telefonszám megadása kötelező!")]
         [Phone]
         public string PhoneNumber { get; set; } = null!;
 
