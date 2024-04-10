@@ -52,7 +52,8 @@
                                              }
                                              : new
                                              {
-                                                 @class = "btn-check"
+                                                 @class = "btn-check seat",
+                                                 @onclick = "checkSeats()"
                                              })
                                     @Html.LabelFor(m => m.Seats[index].ToReserve,
                                              (j + 1).ToString(),
@@ -84,6 +85,8 @@
         }
     </div>
 </div>
+
+<script src="~/js/showsEdit.js"></script>
 
 @section Scripts {
     @{
