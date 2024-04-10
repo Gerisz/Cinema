@@ -18,7 +18,7 @@ namespace Cinema.Web.Models
         [DataType(DataType.PhoneNumber)]
         [DisplayName("Telefonszám")]
         [Required(ErrorMessage = "Telefonszám megadása kötelező!")]
-        [Phone]
+        [Phone(ErrorMessage = "Telefonszám formátuma érvénytelen!")]
         public string PhoneNumber { get; set; } = null!;
 
         public static Expression<Func<Show, SeatReserve>> Projection { get; }

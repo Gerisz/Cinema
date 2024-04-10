@@ -101,7 +101,7 @@ namespace Cinema.Web.Controllers
                 }
                 return RedirectToAction("Index", "Movies");
             }
-            return View(dto);
+            return await Edit(id);
         }
         /*
         // GET: Shows/Delete/5
