@@ -16,6 +16,7 @@ namespace Cinema.Web.Models
 
         [DataType(DataType.PhoneNumber)]
         [DisplayName("Telefonszám")]
+        [Phone]
         public string PhoneNumber { get; set; } = null!;
 
         public static Expression<Func<Show, SeatReserve>> Projection { get; }
