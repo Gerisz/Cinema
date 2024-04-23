@@ -1,5 +1,5 @@
-﻿using Cinema.Data.Services;
-using Cinema.Web.Models;
+﻿using Cinema.Data.Models.DTOs;
+using Cinema.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace Cinema.Web.Models
+namespace Cinema.Data.Models.DTOs
 {
     public class MovieDetails
     {

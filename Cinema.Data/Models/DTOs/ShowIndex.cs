@@ -1,7 +1,7 @@
 ﻿using Cinema.Data.Models.Tables;
 using Cinema.Data.Models.Tables.Enums;
 
-namespace Cinema.Web.Models
+namespace Cinema.Data.Models.DTOs
 {
     public class ShowIndex
     {
