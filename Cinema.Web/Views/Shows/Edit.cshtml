@@ -20,7 +20,7 @@
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-6 form-floating">
-                    @Html.EditorFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.LabelFor(m => m.PhoneNumber)
                     @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
@@ -52,7 +52,8 @@
                                              }
                                              : new
                                              {
-                                                 @class = "btn-check"
+                                                 @class = "btn-check seat",
+                                                 @onclick = "checkSeats()"
                                              })
                                     @Html.LabelFor(m => m.Seats[index].ToReserve,
                                              (j + 1).ToString(),
@@ -84,6 +85,8 @@
         }
     </div>
 </div>
+
+<script src="~/js/showsEdit.js"></script>
 
 @section Scripts {
     @{

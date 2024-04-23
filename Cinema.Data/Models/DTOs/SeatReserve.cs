@@ -12,11 +12,13 @@ namespace Cinema.Data.Models.DTOs
         public (int RowCount, int ColumnCount) HallSize { get; set; }
 
         [DisplayName("Név")]
+        [Required(ErrorMessage = "Név megadása kötelező!")]
         public string Name { get; set; } = null!;
 
         [DataType(DataType.PhoneNumber)]
         [DisplayName("Telefonszám")]
-        [Phone]
+        [Required(ErrorMessage = "Telefonszám megadása kötelező!")]
+        [Phone(ErrorMessage = "Telefonszám formátuma érvénytelen!")]
         public string PhoneNumber { get; set; } = null!;
 
         public static Expression<Func<Show, SeatReserve>> Projection { get; }
