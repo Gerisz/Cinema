@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 
-namespace Cinema.Web.Models
+namespace Cinema.Data.Models.DTOs
 {
     public class SeatReserve
     {
@@ -12,10 +12,13 @@ namespace Cinema.Web.Models
         public (int RowCount, int ColumnCount) HallSize { get; set; }
 
         [DisplayName("Név")]
+        [Required(ErrorMessage = "Név megadása kötelező!")]
         public string Name { get; set; } = null!;
 
         [DataType(DataType.PhoneNumber)]
         [DisplayName("Telefonszám")]
+        [Required(ErrorMessage = "Telefonszám megadása kötelező!")]
+        [Phone(ErrorMessage = "Telefonszám formátuma érvénytelen!")]
         public string PhoneNumber { get; set; } = null!;
 
         public static Expression<Func<Show, SeatReserve>> Projection { get; }

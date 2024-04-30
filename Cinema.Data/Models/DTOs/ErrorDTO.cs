@@ -1,4 +1,4 @@
-namespace Cinema.Web.Models
+namespace Cinema.Data.Models.DTOs
 {
     public class ErrorDTO
     {

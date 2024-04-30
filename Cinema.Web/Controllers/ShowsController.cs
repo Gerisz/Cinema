@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Cinema.Data.Services;
-using Cinema.Web.Models;
+using Cinema.Data.Models.DTOs;
 
 namespace Cinema.Web.Controllers
 {
@@ -60,7 +60,7 @@ namespace Cinema.Web.Controllers
         // GET: Shows/Edit/5
         public async Task<IActionResult> Edit(Int32 id)
         {
-            var show = await _service.GetShowAsync(id);
+            var show = await _service.GetShowByIdAsync(id);
             if (show == null)
                 return NotFound();
             var reserveSeatDTO = SeatReserve.Create(show);
@@ -101,7 +101,7 @@ namespace Cinema.Web.Controllers
                 }
                 return RedirectToAction("Index", "Movies");
             }
-            return View(dto);
+            return await Edit(id);
         }
         /*
         // GET: Shows/Delete/5
@@ -131,7 +131,7 @@ namespace Cinema.Web.Controllers
 
         private bool ShowExists(int id)
         {
-            return _service.GetShowAsync(id) != null;
+            return _service.GetShowByIdAsync(id) != null;
         }
     }
 }

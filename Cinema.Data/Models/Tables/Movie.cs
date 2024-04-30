@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Cinema.Data.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cinema.Data.Models.Tables
 {
@@ -16,6 +17,18 @@ namespace Cinema.Data.Models.Tables
 
         public DateTime Entry { get; set; }
 
-        public virtual ICollection<Show> Shows { get; set; } = new List<Show>();
+        public virtual ICollection<Show> Shows { get; set; } = [];
+
+        public Movie() { }
+
+        public Movie(MovieCreate movie) 
+        {
+            Title = movie.Title;
+            Director = movie.Director;
+            Synopsis = movie.Synopsis;
+            Length = movie.Length;
+            Image = movie.Image;
+            Entry = movie.Entry;
+        }
     }
 }

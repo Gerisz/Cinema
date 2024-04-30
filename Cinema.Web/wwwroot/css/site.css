@@ -24,3 +24,8 @@ body {
 #image {
     max-width: 10vw;
 }
+
+.seat-cell {
+    width: 1%;
+    white-space: nowrap;
+}
