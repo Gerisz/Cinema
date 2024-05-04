@@ -7,17 +7,17 @@ namespace Cinema.Web.Controllers
 {
     public class ShowsController : Controller
     {
-        private readonly ICinemaService _service;
+        private readonly CinemaDbContext _context;
 
-        public ShowsController(ICinemaService service)
+        public ShowsController(CinemaDbContext service)
         {
-            _service = service;
+            _context = service;
         }
         /*
         // GET: Shows
         public async Task<IActionResult> Index()
         {
-            return View(_service.GetTodaysShows()
+            return View(_context.GetTodaysShows()
                 .AsQueryable()
                 .Select(ListShowDTO.Projection));
         }
@@ -25,7 +25,7 @@ namespace Cinema.Web.Controllers
         // GET: Shows/Details/5
         public async Task<IActionResult> Details(Int32 id)
         {
-            var show = await _service.GetShowAsync(id);
+            var show = await _context.GetShowAsync(id);
             if (show == null)
                 return NotFound();
             return View(show);
@@ -60,7 +60,7 @@ namespace Cinema.Web.Controllers
         // GET: Shows/Edit/5
         public async Task<IActionResult> Edit(Int32 id)
         {
-            var show = await _service.GetShowByIdAsync(id);
+            var show = await _context.GetShowByIdAsync(id);
             if (show == null)
                 return NotFound();
             var reserveSeatDTO = SeatReserve.Create(show);
@@ -86,7 +86,7 @@ namespace Cinema.Web.Controllers
                     var toReserve = dto.Seats
                         .Where(s => s.ToReserve && !s.Reserved)
                         .Select(s => s.Id);
-                    await _service.ReserveSeatsAsync(toReserve, dto.Name, dto.PhoneNumber);
+                    await _context.ReserveSeatsAsync(toReserve, dto.Name, dto.PhoneNumber);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -107,7 +107,7 @@ namespace Cinema.Web.Controllers
         // GET: Shows/Delete/5
         public async Task<IActionResult> Delete(Int32 id)
         {
-            var show = await _service.GetShowAsync(id);
+            var show = await _context.GetShowAsync(id);
             if (show == null)
                 return NotFound();
 
@@ -131,7 +131,7 @@ namespace Cinema.Web.Controllers
 
         private bool ShowExists(int id)
         {
-            return _service.GetShowByIdAsync(id) != null;
+            return _context.GetShowByIdAsync(id) != null;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Cinema.Data.Models.DTOs
 {
-    public class LoginDTO
+    public class UserLogin
     {
         ///<example>username</example>
         public String UserName { get; set; } = null!;

@@ -1,6 +1,8 @@
 ﻿using Cinema.Data.Models.Tables;
 using Cinema.Data.Models.Tables.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Text.Json;
 
 namespace Cinema.Data.Models
@@ -94,6 +96,22 @@ namespace Cinema.Data.Models
             await context.AddRangeAsync(defaultSeats);
 
             await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedUsersAsync(UserManager<Employee> userManager)
+        {
+            var user = await userManager.FindByNameAsync("admin");
+            // if user with said role doesn't exist
+            if (user == null)
+            {
+                // then create a default user for that role
+                user = new Employee()
+                {
+                    Name = "admin",
+                    UserName = "admin"
+                };
+                await userManager.CreateAsync(user, "admin");
+            }
         }
     }
 }

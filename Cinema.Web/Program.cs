@@ -1,5 +1,6 @@
 using Cinema.Data.Models;
-using Cinema.Data.Services;
+using Cinema.Data.Models.Tables;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,17 @@ builder.Services.AddDbContext<CinemaDbContext>(options =>
     options.UseLazyLoadingProxies();
 });
 
-builder.Services.AddTransient<ICinemaService, CinemaService>();
+builder.Services.AddIdentity<Employee, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 3;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+})
+.AddEntityFrameworkStores<CinemaDbContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
 

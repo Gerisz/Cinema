@@ -16,5 +16,7 @@ namespace Cinema.Data.Models.DTOs
                 RowCount = hall.RowCount,
                 ColumnCount = hall.ColumnCount
             };
+
+        public static HallIndex Create(Hall hall) => Projection.Compile().Invoke(hall);
     }
 }

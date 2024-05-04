@@ -1,4 +1,5 @@
 ﻿using Cinema.Data.Models.Tables.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cinema.Data.Models.Tables
@@ -20,5 +21,24 @@ namespace Cinema.Data.Models.Tables
 
         [DataType(DataType.PhoneNumber)]
         public String? ReservantPhoneNumber { get; set; }
+
+        public static ICollection<Seat> GenerateSeats(Show show)
+        {
+            Hall hall = show.Hall;
+            ICollection<Seat> seats = new List<Seat>(hall.RowCount * hall.ColumnCount);
+
+            for (Int32 i = 0; i < show.Hall.RowCount; i++)
+                for (Int32 j = 0; j < show.Hall.ColumnCount; j++)
+                    seats.Add(new Seat
+                    {
+                        Show = show,
+                        Hall = show.Hall,
+                        Row = i + 1,
+                        Column = j + 1,
+                        Status = Status.Free
+                    });
+
+            return seats;
+        }
     }
 }

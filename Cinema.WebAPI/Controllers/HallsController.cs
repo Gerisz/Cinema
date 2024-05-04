@@ -1,0 +1,31 @@
+﻿using Cinema.Data.Models;
+using Cinema.Data.Models.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
+namespace Cinema.Web.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class HallsController : ControllerBase
+    {
+        private readonly CinemaDbContext _context;
+
+        public HallsController(CinemaDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<HallIndex>>> GetHallsAsync()
+        {
+            var halls = _context.Halls
+                .AsNoTracking()
+                .Select(HallIndex.Projection)
+                .ToListAsync();
+
+            return Ok(await halls);
+        }
+    }
+}

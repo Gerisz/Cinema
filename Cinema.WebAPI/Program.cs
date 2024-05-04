@@ -1,8 +1,7 @@
 using Cinema.Data.Models;
+using Cinema.Data.Models.Tables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Cinema.Data.Models.Tables;
-using Cinema.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,8 +32,6 @@ builder.Services.AddIdentity<Employee, IdentityRole>(options =>
 .AddEntityFrameworkStores<CinemaDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddTransient<ICinemaService, CinemaService>();
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -58,5 +55,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var serviceScope = app.Services.CreateScope())
+using (var context = serviceScope.ServiceProvider.GetRequiredService<CinemaDbContext>())
+{
+    String? imageSource = app.Configuration.GetValue<String>("ImageSource");
+
+    if (imageSource == null)
+        throw new ArgumentNullException(nameof(imageSource));
+
+    await DbInitializer.InitializeAsync(context, imageSource);
+    await DbInitializer.SeedUsersAsync(serviceScope.ServiceProvider.GetRequiredService<UserManager<Employee>>());
+}
 
 app.Run();

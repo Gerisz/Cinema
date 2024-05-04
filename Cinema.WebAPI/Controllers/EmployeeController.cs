@@ -20,7 +20,7 @@ namespace Cinema.WebAPI.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+        public async Task<IActionResult> Login([FromBody] UserLogin loginDTO)
         {
             try
             {

@@ -11,5 +11,15 @@
         public virtual Hall Hall { get; set; } = null!;
 
         public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
+
+        public Show() { }
+
+        public Show(DateTime start, Movie movie, Hall hall)
+        {
+            Start = start;
+            Movie = movie;
+            Hall = hall;
+            Seats = Seat.GenerateSeats(this);
+        }
     }
 }

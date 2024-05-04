@@ -7,16 +7,16 @@ namespace Cinema.Web.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly ICinemaService _service;
+        private readonly CinemaDbContext _context;
 
-        public MoviesController(ICinemaService service)
+        public MoviesController(CinemaDbContext service)
         {
-            _service = service;
+            _context = service;
         }
 
         public async Task<IActionResult?> DisplayImage(Int32 id)
         {
-            var movie = await _service.GetMovieByIdAsync(id);
+            var movie = await _context.GetMovieByIdAsync(id);
             if (movie != null && movie.Image != null)
                 return File(movie.Image, "image/png");
             return null;
@@ -25,7 +25,7 @@ namespace Cinema.Web.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            var movies = await _service.GetTodaysMovies()
+            var movies = await _context.GetTodaysMovies()
                 .AsQueryable()
                 .Select(MovieIndex.Projection)
                 .ToListAsync();
@@ -38,7 +38,7 @@ namespace Cinema.Web.Controllers
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(Int32 id)
         {
-            var movie = await _service.GetMovieByIdAsync(id);
+            var movie = await _context.GetMovieByIdAsync(id);
 
             if (movie == null)
             {

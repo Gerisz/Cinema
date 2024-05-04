@@ -1,4 +1,4 @@
-using Cinema.Web.Models;
+using Cinema.Data.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

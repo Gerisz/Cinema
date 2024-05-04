@@ -1,8 +1,10 @@
-﻿using Cinema.Data.Models.DTOs;
+﻿using Cinema.Data.Models;
+using Cinema.Data.Models.DTOs;
 using Cinema.Data.Models.Tables;
-using Cinema.Data.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Cinema.WebAPI.Controllers
 {
@@ -10,33 +12,44 @@ namespace Cinema.WebAPI.Controllers
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase
     {
-        private readonly ICinemaService _service;
+        private readonly CinemaDbContext _context;
 
-        public MoviesController(ICinemaService service)
+        public MoviesController(CinemaDbContext context)
         {
-            _service = service;
+            _context = context;
         }
 
-        public async Task<ActionResult<Movie>> GetMovie(Int32 id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
         {
-            var movie = _service.GetMovieByIdAsync(id);
+            var movieTitles = await _context.Movies
+                .AsNoTracking()
+                .Select(MovieDTO.Projection)
+                .ToListAsync();
 
-            if (await movie == null)
+            if (movieTitles == null)
                 return NotFound();
 
-            return Ok(movie);
+            return Ok(movieTitles);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostMovie(MovieCreate movieCreate)
+        public async Task<IActionResult> PostMovie(MovieDTO movieCreate)
         {
-            var movie = _service.CreateMovieAsync(new Movie(movieCreate));
+            var movie = new Movie(movieCreate);
 
-            if (await movie == null)
+            try
+            {
+                await _context.Movies.AddAsync(movie);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+            return CreatedAtAction(nameof(GetMovies), new { id = movie.Id }, movie);
         }
     }
 }

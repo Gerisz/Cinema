@@ -21,14 +21,14 @@ namespace Cinema.Data.Models.Tables
 
         public Movie() { }
 
-        public Movie(MovieCreate movie) 
+        public Movie(MovieDTO movie) 
         {
-            Title = movie.Title;
-            Director = movie.Director;
-            Synopsis = movie.Synopsis;
-            Length = movie.Length;
+            Title = movie.Title ?? "";
+            Director = movie.Director ?? "";
+            Synopsis = movie.Synopsis ?? "";
+            Length = movie.Length ?? 0;
             Image = movie.Image;
-            Entry = movie.Entry;
+            Entry = movie.Entry ?? new DateTime();
         }
     }
 }
