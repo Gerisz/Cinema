@@ -1,5 +1,4 @@
-﻿using Cinema.Data.Models.DTOs;
-using Cinema.Data.Services;
+﻿using Cinema.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,38 +15,37 @@ namespace Cinema.Web.Controllers
 
         public async Task<IActionResult?> DisplayImage(Int32 id)
         {
-            var movie = await _context.GetMovieByIdAsync(id);
+            var movie = await _context.Movies.FindAsync(id);
+
             if (movie != null && movie.Image != null)
                 return File(movie.Image, "image/png");
+
             return null;
         }
 
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            var movies = await _context.GetTodaysMovies()
-                .AsQueryable()
-                .Select(MovieIndex.Projection)
+            var movies = _context.Movies
+                .AsNoTracking()
+                .Include(m => m.Shows)
+                .Where(m => m.Shows.Any(s => s.Start.Date == DateTime.Today))
                 .ToListAsync();
-            movies
-                .ForEach(m => m.Starts = m.Starts
-                    .Where(s => s.Date == DateTime.Today));
-            return View(movies);
+
+            return View(await movies);
         }
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(Int32 id)
         {
-            var movie = await _context.GetMovieByIdAsync(id);
+            var movie = await _context.Movies
+                .Include(m => m.Shows)
+                .SingleOrDefaultAsync(m => id == m.Id);
 
             if (movie == null)
-            {
                 return NotFound();
-            }
 
-            movie.Shows = movie.Shows.Where(s => s.Start.Date == DateTime.Today).ToList();
-
-            return View(MovieDetails.Create(movie));
+            return View(movie);
         }
         /*
         // GET: Movies/Create

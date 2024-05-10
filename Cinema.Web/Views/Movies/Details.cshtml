@@ -1,4 +1,4 @@
-﻿@model MovieDetails
+﻿@model Movie
 
 
 <h1>@Html.DisplayFor(model => model.Title)</h1>
@@ -33,9 +33,9 @@
 </div>
 <hr />
 <h2>Foglalás mai előadásra:</h2>
-@foreach (var start in Model.Starts)
+@foreach (var show in Model.Shows)
 {
-    @Html.ActionLink(start.Start.ToShortTimeString(), "Edit", "Shows",
-                            new { @id = $"{start.Id}" },
+    @Html.ActionLink(show.Start.ToShortTimeString(), "Edit", "Shows",
+                            new { @id = $"{show.Id}" },
                             new { @class = "btn btn-primary m-1" })
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MovieIndex>
+﻿@model IEnumerable<Movie>
 
 <h1>Mai program</h1>
 
@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(m => m.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Starts)
+                @Html.DisplayNameFor(m => m.Shows)
             </th>
             <th></th>
         </tr>
@@ -41,9 +41,9 @@
                 </td>
                 <td>
                     <ul class="list-group list-group-horizontal">
-                        @foreach (var start in item.Starts)
+                        @foreach (var show in item.Shows)
                         {
-                            var time = start.ToShortTimeString();
+                            var time = show.Start.ToShortTimeString();
                             <li class="list-group-item">
                                 @Html.DisplayFor(_ => time)
                             </li>
