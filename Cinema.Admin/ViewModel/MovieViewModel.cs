@@ -1,5 +1,4 @@
 ﻿using Cinema.Data.Models.DTOs;
-using System.ComponentModel.DataAnnotations;
 
 namespace Cinema.Admin.ViewModel
 {

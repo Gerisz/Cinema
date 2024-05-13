@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Cinema.Admin.ViewModel
+﻿namespace Cinema.Admin.ViewModel
 {
     public class MessageEventArgs : EventArgs
     {

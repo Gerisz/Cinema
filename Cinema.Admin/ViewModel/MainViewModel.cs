@@ -1,6 +1,7 @@
 ﻿using Cinema.Admin.Model;
 using Cinema.Data.Models.DTOs;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Windows.Controls;
 
@@ -27,12 +28,15 @@ namespace Cinema.Admin.ViewModel
         #region Commands
 
         public DelegateCommand LogoutCommand { get; private set; }
+        public DelegateCommand TabChangedCommand { get; private set; }
 
         #region Movie commands
 
+        public DelegateCommand RefreshMoviesCommand { get; private set; }
         public DelegateCommand AddMovieCommand { get; private set; }
         public DelegateCommand EditMovieCommand { get; private set; }
         public DelegateCommand DeleteMovieCommand { get; private set; }
+
         public DelegateCommand SaveEditMovieCommand { get; private set; }
         public DelegateCommand CancelEditMovieCommand { get; private set; }
         public DelegateCommand ChangeMovieImageCommand { get; private set; }
@@ -54,14 +58,16 @@ namespace Cinema.Admin.ViewModel
         {
             _service = service;
 
-            LogoutCommand = new DelegateCommand(_ => LogoutAsync());
+            LogoutCommand = new DelegateCommand(async _ => await LogoutAsync());
+            Task.Run(LoadMoviesAsync).Wait();
 
+            RefreshMoviesCommand = new DelegateCommand(async _ => await LoadMoviesAsync());
             AddMovieCommand = new DelegateCommand(_ =>
                 !(SelectedMovie == null) && SelectedMovie.Id != 0,
                 _ => AddMovie());
-            EditMovieCommand = new DelegateCommand(_ => !(SelectedMovie is null),
+            EditMovieCommand = new DelegateCommand(_ => SelectedMovie != null,
                 _ => StartEditMovie());
-            DeleteMovieCommand = new DelegateCommand(_ => !(SelectedMovie is null),
+            DeleteMovieCommand = new DelegateCommand(_ => SelectedMovie != null,
                 _ => DeleteMovie(SelectedMovie));
 
             SaveEditMovieCommand = new DelegateCommand(_ =>
@@ -95,6 +101,19 @@ namespace Cinema.Admin.ViewModel
         #endregion
 
         #region Movies
+
+        private async Task LoadMoviesAsync()
+        {
+            try
+            {
+                Movies = new ObservableCollection<MovieViewModel>((await _service.LoadMoviesAsync())
+                    .Select(m => (MovieViewModel)m));
+            }
+            catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
+            {
+                OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
+            }
+        }
 
         private void AddMovie()
         {

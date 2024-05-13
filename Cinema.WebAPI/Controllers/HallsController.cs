@@ -2,7 +2,6 @@
 using Cinema.Data.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Cinema.Web.Controllers
 {

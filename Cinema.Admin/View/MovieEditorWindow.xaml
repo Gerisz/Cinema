@@ -4,8 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cinema.Admin.View"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MovieEditorWindow" Height="Auto" Width="Auto">
+        Title="Cinema - Film szerkesztő" Height="Auto" Width="Auto" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors)/ErrorContent, RelativeSource={RelativeSource Self}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding CancelItemEditCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -43,14 +58,20 @@
             Source="{Binding Image, TargetNullValue={x:Null}}" />
 
         <Button Grid.Row="5" Grid.Column="1" Content="Csere"
-            HorizontalAlignment="Left" VerticalAlignment="Center"
-            Width="73"  Height="21"  Margin="316,0,0,0"
+            HorizontalAlignment="Center" VerticalAlignment="Center"
+            Width="73"  Height="21"  Margin="5"
             Command="{Binding ChangeImageCommand}"/>
 
-        <Button Grid.Row="6" Content="Új film felvitele"
-            HorizontalAlignment="Left" VerticalAlignment="Center"
-            Padding="2"  Margin="273,0,0,0"
-            IsDefault="True"
-            Command="{Binding NewMovieCommand}" Grid.Column="1"/>
+        <Button Grid.Row="6" Grid.Column="0" Content="Mégse"
+        HorizontalAlignment="Left" VerticalAlignment="Center"
+        Width="73"  Height="21"  Margin="5"
+        IsCancel="True"
+        Command="{Binding CancelMovieEditCommand}"/>
+
+        <Button Grid.Row="6" Grid.Column="1" Content="Mentés"
+        HorizontalAlignment="Right" VerticalAlignment="Center"
+        Width="73"  Height="21"  Margin="5"
+        IsDefault="True"
+        Command="{Binding SaveMovieEditCommand}"/>
     </Grid>
 </Window>

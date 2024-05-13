@@ -39,5 +39,15 @@ namespace Cinema.Data.Models.Tables
             Image = movie.Image;
             Entry = movie.Entry;
         }
+
+        public void Update(Movie movie)
+        {
+            Title = movie.Title ?? "";
+            Director = movie.Director ?? "";
+            Synopsis = movie.Synopsis ?? "";
+            Length = movie.Length;
+            Image = movie.Image;
+            Entry = movie.Entry;
+        }
     }
 }

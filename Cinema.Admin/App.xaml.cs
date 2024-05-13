@@ -53,43 +53,41 @@ namespace Cinema.Admin
                 DataContext = _mainViewModel
             };
 
-            // Alkalmazás leállítása a főablak bezárásakor
-            // (alapértelmezetten az összes ablak bezárásakor történik, de a login ablakot csak elrejteni fogjuk)
             MainWindow = _mainView;
             ShutdownMode = ShutdownMode.OnMainWindowClose;
-            _loginView.Closed += LoginView_Closed; // bejelentkezési ablak bezárásakor is leállítás
+            _loginView.Closed += LoginView_Closed;
 
             _loginView.Show();
         }
 
-        private void LoginView_Closed(object sender, EventArgs e)
+        private void LoginView_Closed(Object sender, EventArgs e)
         {
             Shutdown();
         }
 
-        private void ViewModel_LoginSucceeded(object sender, EventArgs e)
+        private void ViewModel_LoginSucceeded(Object sender, EventArgs e)
         {
             _loginView.Hide();
             _mainView.Show();
         }
 
-        private void ViewModel_LoginFailed(object sender, EventArgs e)
+        private void ViewModel_LoginFailed(Object sender, EventArgs e)
         {
-            MessageBox.Show("Login unsuccessful!", "TodoList", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            MessageBox.Show("Bejelenkezés sikertelen!", "Cinema", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
-        private void ViewModel_LogoutSucceeded(object sender, EventArgs e)
+        private void ViewModel_LogoutSucceeded(Object sender, EventArgs e)
         {
             _mainView.Hide();
             _loginView.Show();
         }
 
-        private void ViewModel_MessageApplication(object sender, MessageEventArgs e)
+        private void ViewModel_MessageApplication(Object sender, MessageEventArgs e)
         {
-            MessageBox.Show(e.Message, "TodoList", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            MessageBox.Show(e.Message, "Cinema", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
-        private void ViewModel_StartingMovieEdit(object sender, EventArgs e)
+        private void ViewModel_StartingMovieEdit(Object sender, EventArgs e)
         {
             _movieEditorWindow = new MovieEditorWindow
             {
@@ -98,7 +96,7 @@ namespace Cinema.Admin
             _movieEditorWindow.ShowDialog();
         }
 
-        private void ViewModel_FinishingMovieEdit(object sender, EventArgs e)
+        private void ViewModel_FinishingMovieEdit(Object sender, EventArgs e)
         {
             if (_movieEditorWindow.IsActive)
             {
@@ -106,7 +104,7 @@ namespace Cinema.Admin
             }
         }
 
-        private async void ViewModel_StartingMovieImageChange(object sender, EventArgs e)
+        private async void ViewModel_StartingMovieImageChange(Object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
             {

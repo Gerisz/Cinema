@@ -62,25 +62,30 @@ namespace Cinema.Admin.Model
             throw new NetworkException("Service returned response: " + response.StatusCode);
         }
 
-        public async Task<MovieDTO> CreateMovieAsync(MovieDTO movie)
+        public async Task CreateMovieAsync(MovieDTO movie)
         {
             HttpResponseMessage response = await _client.PostAsJsonAsync("api/Movies/", movie);
             movie.Id = (await response.Content.ReadAsAsync<MovieDTO>()).Id;
 
             if (!response.IsSuccessStatusCode)
                 throw new NetworkException("Service returned response: " + response);
-
-            return movie;
         }
 
-        internal async Task DeleteMovieAsync(Int32 id)
+        public async Task UpdateMovieAsync(MovieDTO movie)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = await _client.PutAsJsonAsync($"api/Movies/{movie.Id}", movie);
+            movie.Id = (await response.Content.ReadAsAsync<MovieDTO>()).Id;
+
+            if (!response.IsSuccessStatusCode)
+                throw new NetworkException("Service returned response: " + response);
         }
 
-        internal async Task UpdateMovieAsync(MovieDTO selectedMovie)
+        public async Task DeleteMovieAsync(Int32 id)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = await _client.DeleteAsync($"api/Movies/{id}");
+
+            if (!response.IsSuccessStatusCode)
+                throw new NetworkException("Service returned response: " + response);
         }
 
         #endregion

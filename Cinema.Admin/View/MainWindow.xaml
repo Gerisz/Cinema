@@ -31,7 +31,7 @@
                             <DataGridTemplateColumn Header="Image">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="{Binding Image, TargetNullValue={x:Null}}" MaxHeight="48" MaxWidth="48" />
+                                        <Image Source="{Binding Image, TargetNullValue={x:Null}}" MaxHeight="100" MaxWidth="100" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
