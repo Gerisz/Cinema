@@ -35,9 +35,9 @@ namespace Cinema.Data.Models.Tables
             Title = movie.Title ?? "";
             Director = movie.Director ?? "";
             Synopsis = movie.Synopsis ?? "";
-            Length = movie.Length ?? 0;
+            Length = movie.Length;
             Image = movie.Image;
-            Entry = movie.Entry ?? new DateTime();
+            Entry = movie.Entry;
         }
     }
 }

@@ -73,6 +73,16 @@ namespace Cinema.Admin.Model
             return movie;
         }
 
+        internal async Task DeleteMovieAsync(Int32 id)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal async Task UpdateMovieAsync(MovieDTO selectedMovie)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

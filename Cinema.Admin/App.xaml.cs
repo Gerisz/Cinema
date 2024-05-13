@@ -1,8 +1,9 @@
 ﻿using Cinema.Admin.Model;
 using Cinema.Admin.View;
 using Cinema.Admin.ViewModel;
+using Microsoft.Win32;
 using System.Configuration;
-using System.Data;
+using System.IO;
 using System.Windows;
 
 namespace Cinema.Admin
@@ -17,15 +18,17 @@ namespace Cinema.Admin
         private LoginViewModel _loginViewModel;
         private MainWindow _mainView;
         private LoginWindow _loginView;
+        private MovieEditorWindow _movieEditorWindow;
 
         public App()
         {
             Startup += App_Startup;
         }
 
-        private void App_Startup(object sender, StartupEventArgs e)
+        private void App_Startup(Object sender, StartupEventArgs e)
         {
-            _service = new CinemaAPIService(new Uri(ConfigurationManager.AppSettings["baseAddress"]));
+            _service = new CinemaAPIService(
+                new Uri(ConfigurationManager.AppSettings["baseAddress"]!));
 
             _loginViewModel = new LoginViewModel(_service);
 
@@ -41,9 +44,9 @@ namespace Cinema.Admin
             _mainViewModel = new MainViewModel(_service);
             _mainViewModel.LogoutSucceeded += ViewModel_LogoutSucceeded;
             _mainViewModel.MessageApplication += ViewModel_MessageApplication;
-            //_mainViewModel.StartingItemEdit += ViewModel_StartingItemEdit;
-            //_mainViewModel.FinishingItemEdit += ViewModel_FinishingItemEdit;
-            //_mainViewModel.StartingImageChange += ViewModel_StartingImageChange;
+            _mainViewModel.StartingMovieEdit += ViewModel_StartingMovieEdit;
+            _mainViewModel.FinishingMovieEdit += ViewModel_FinishingMovieEdit;
+            _mainViewModel.StartingMovieImageChange += ViewModel_StartingMovieImageChange;
 
             _mainView = new MainWindow
             {
@@ -86,24 +89,24 @@ namespace Cinema.Admin
             MessageBox.Show(e.Message, "TodoList", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
-        /*private void ViewModel_StartingItemEdit(object sender, EventArgs e)
+        private void ViewModel_StartingMovieEdit(object sender, EventArgs e)
         {
-            _editorView = new ItemEditorWindow
+            _movieEditorWindow = new MovieEditorWindow
             {
                 DataContext = _mainViewModel
             };
-            _editorView.ShowDialog();
+            _movieEditorWindow.ShowDialog();
         }
 
-        private void ViewModel_FinishingItemEdit(object sender, EventArgs e)
+        private void ViewModel_FinishingMovieEdit(object sender, EventArgs e)
         {
-            if (_editorView.IsActive)
+            if (_movieEditorWindow.IsActive)
             {
-                _editorView.Close();
+                _movieEditorWindow.Close();
             }
         }
 
-        private async void ViewModel_StartingImageChange(object sender, EventArgs e)
+        private async void ViewModel_StartingMovieImageChange(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
             {
@@ -112,11 +115,11 @@ namespace Cinema.Admin
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
             };
 
-            if (dialog.ShowDialog(_editorView).GetValueOrDefault(false))
+            if (dialog.ShowDialog(_movieEditorWindow).GetValueOrDefault(false))
             {
-                _mainViewModel.SelectedItem.Image = await File.ReadAllBytesAsync(dialog.FileName);
+                _mainViewModel.SelectedMovie.Image = await File.ReadAllBytesAsync(dialog.FileName);
             }
-        }*/
+        }
     }
 
 }

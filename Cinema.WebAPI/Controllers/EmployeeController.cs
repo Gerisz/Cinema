@@ -1,4 +1,5 @@
 ﻿using Cinema.Data.Models.DTOs;
+using Cinema.Data.Models.Tables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,11 @@ namespace Cinema.WebAPI.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
-        private readonly SignInManager<EmployeeController> _signInManager;
-        private readonly UserManager<EmployeeController> _userManager;
+        private readonly SignInManager<Employee> _signInManager;
+        private readonly UserManager<Employee> _userManager;
 
-        public EmployeeController(SignInManager<EmployeeController> signInManager,
-            UserManager<EmployeeController> userManager)
+        public EmployeeController(SignInManager<Employee> signInManager,
+            UserManager<Employee> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;

@@ -3,57 +3,57 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodel="clr-namespace:Cinema.Admin.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namesapce:Cinema.Admin.View"
+        xmlns:viewModel="clr-namespace:Cinema.Admin.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Maximized">
+        Title="Cinema" WindowState="Maximized">
     <Grid>
         <TabControl>
-            <TabItem Header="Új film" DataContext="{Binding Movie}">
-                <Grid Margin="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+            <TabItem Header="Filmek">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Cím" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="5"
-                            Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding Movies}"
+                            SelectedItem="{Binding SelectedMovie}"
+                            IsReadOnly="True" AutoGenerateColumns="False"
+                            VerticalContentAlignment="Stretch" SelectionMode="Single">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction
+                                    PassEventArgsToCommand="True"
+                                    Command="{Binding EditMovieCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Image">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image, TargetNullValue={x:Null}}" MaxHeight="48" MaxWidth="48" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Cím" Binding="{Binding Title}" />
+                            <DataGridTextColumn Header="Rendező" Binding="{Binding Director}" />
+                            <DataGridTextColumn Header="Hossz (perc)" Binding="{Binding Length}" />
+                            <DataGridTextColumn Header="Felviteli dátum" Binding="{Binding Entry, StringFormat={}{0:yyyy/MM/dd}}" />
+                            <DataGridTextColumn Header="Szinopszis" Binding="{Binding Synposis}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-                    <Label Grid.Row="1" Grid.Column="0" Content="Rendező" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="5"
-                            Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <Label Grid.Row="2" Grid.Column="0" Content="Szinopszis" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Margin="5"
-                            Text="{Binding Synopsis, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <Label Grid.Row="3" Grid.Column="0" Content="Hossz (perc)" />
-                    <TextBox Grid.Row="3" Grid.Column="1" Margin="5"
-                            Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <Label Grid.Row="4" Grid.Column="0" Content="Plakát" VerticalAlignment="Center" />
-                    <Image Grid.Row="4" Grid.Column="1" Margin="5" HorizontalAlignment="Left"
-                            Height="240" Width="180" MaxHeight="240" MaxWidth="180"
-                            Source="{Binding Image, TargetNullValue={x:Null}}" />
-
-                    <Button Grid.Row="5" Grid.Column="1" Content="Csere"
-                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Width="73"  Height="21"  Margin="5"
-                            Command="{Binding ChangeImageCommand}"/>
-
-                    <Button Grid.Row="6" Grid.ColumnSpan="2" Content="Új film felvitele"
-                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Padding="2"  Margin="5"
-                            IsDefault="True"
-                            Command="{Binding NewMovieCommand}"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Margin="5" Content="Film hozzáadása" Command="{Binding AddMovieCommand}" />
+                        <Button Margin="5" Content="Film szerkesztése" Command="{Binding EditMovieCommand}" />
+                        <Button Margin="5" Content="Film törlése" Command="{Binding DeleteMovieCommand}" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Új előadás">
