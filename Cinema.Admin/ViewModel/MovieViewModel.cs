@@ -121,6 +121,7 @@ namespace Cinema.Admin.ViewModel
             {
                 Id = _backup.Id;
                 Title = _backup.Title;
+                Director = _backup.Director;
                 Synopsis = _backup.Synopsis;
                 Length = _backup.Length;
                 Image = _backup.Image;
@@ -144,6 +145,7 @@ namespace Cinema.Admin.ViewModel
         {
             Id = dto.Id,
             Title = dto.Title,
+            Director = dto.Director,
             Synopsis = dto.Synopsis,
             Length = dto.Length,
             Image = dto.Image ?? [],
@@ -154,10 +156,16 @@ namespace Cinema.Admin.ViewModel
         {
             Id = vm.Id,
             Title = vm.Title,
+            Director = vm.Director,
             Synopsis = vm.Synopsis,
             Length = vm.Length,
             Image = vm.Image,
             Entry = vm.Entry
         };
+
+        public override String ToString()
+        {
+            return $"{Title} - ({Length} perc)";
+        }
     }
 }

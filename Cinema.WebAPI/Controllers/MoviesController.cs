@@ -19,7 +19,7 @@ namespace Cinema.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMoviesAsync()
         {
             var movies = await _context.Movies
                 .AsNoTracking()
@@ -33,7 +33,7 @@ namespace Cinema.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<MovieDTO>> GetMovie(Int32 id)
+        public async Task<ActionResult<MovieDTO>> GetMovieAsync(Int32 id)
         {
             var movie = await _context.Movies.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace Cinema.WebAPI.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostMovie(MovieDTO movieDTO)
+        public async Task<IActionResult> PostMovieAsync(MovieDTO movieDTO)
         {
             var movie = new Movie(movieDTO);
 
@@ -59,12 +59,12 @@ namespace Cinema.WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+            return CreatedAtAction(nameof(GetMovieAsync), new { id = movie.Id }, movie);
         }
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(Int32 id, MovieDTO movieDTO)
+        public async Task<IActionResult> PutMovieAsync(Int32 id, MovieDTO movieDTO)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace Cinema.WebAPI.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMovie(Int32 id)
+        public async Task<IActionResult> DeleteMovieAsync(Int32 id)
         {
             try
             {

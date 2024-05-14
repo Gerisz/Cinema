@@ -19,6 +19,7 @@ namespace Cinema.Admin
         private MainWindow _mainView;
         private LoginWindow _loginView;
         private MovieEditorWindow _movieEditorWindow;
+        private ShowEditorWindow _showEditorWindow;
 
         public App()
         {
@@ -47,6 +48,8 @@ namespace Cinema.Admin
             _mainViewModel.StartingMovieEdit += ViewModel_StartingMovieEdit;
             _mainViewModel.FinishingMovieEdit += ViewModel_FinishingMovieEdit;
             _mainViewModel.StartingMovieImageChange += ViewModel_StartingMovieImageChange;
+            _mainViewModel.StartingShowEdit += ViewModel_StartingShowEdit;
+            _mainViewModel.FinishingShowEdit += ViewModel_FinishingShowEdit;
 
             _mainView = new MainWindow
             {
@@ -116,6 +119,23 @@ namespace Cinema.Admin
             if (dialog.ShowDialog(_movieEditorWindow).GetValueOrDefault(false))
             {
                 _mainViewModel.SelectedMovie.Image = await File.ReadAllBytesAsync(dialog.FileName);
+            }
+        }
+
+        private void ViewModel_StartingShowEdit(Object sender, EventArgs e)
+        {
+            _showEditorWindow = new ShowEditorWindow
+            {
+                DataContext = _mainViewModel
+            };
+            _showEditorWindow.ShowDialog();
+        }
+
+        private void ViewModel_FinishingShowEdit(Object sender, EventArgs e)
+        {
+            if (_showEditorWindow.IsActive)
+            {
+                _showEditorWindow.Close();
             }
         }
     }

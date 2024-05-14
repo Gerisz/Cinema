@@ -17,11 +17,11 @@ namespace Cinema.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HallIndex>>> GetHallsAsync()
+        public async Task<ActionResult<IEnumerable<HallDTO>>> GetHallsAsync()
         {
             var halls = _context.Halls
                 .AsNoTracking()
-                .Select(HallIndex.Projection)
+                .Select(HallDTO.Projection)
                 .ToListAsync();
 
             return Ok(await halls);

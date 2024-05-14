@@ -18,7 +18,7 @@
     </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding CancelItemEditCommand}"/>
+            <i:InvokeCommandAction Command="{Binding CancelEditMovieCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
@@ -38,40 +38,40 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="Cím" Grid.ColumnSpan="2" Margin="0,0,528,28" Grid.RowSpan="2" />
         <TextBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5"
-            Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+            Text="{Binding SelectedMovie.Title, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
 
         <Label Grid.Row="1" Grid.Column="0" Content="Rendező" Grid.ColumnSpan="2" Margin="0,0,528,60" Grid.RowSpan="2" />
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5"
-            Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+            Text="{Binding SelectedMovie.Director, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
 
         <Label Grid.Row="2" Grid.Column="0" Content="Szinopszis" Grid.ColumnSpan="2" Margin="0,0,528,28" Grid.RowSpan="2" />
         <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" MinLines="3"
-            Text="{Binding Synopsis, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+            Text="{Binding SelectedMovie.Synopsis, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
 
         <Label Grid.Row="3" Grid.Column="0" Content="Hossz (perc)" Grid.ColumnSpan="2" Margin="0,0,528,250" Grid.RowSpan="2" />
         <TextBox Grid.Row="3" Grid.Column="1" Margin="5,5,5,5"
-            Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
+            Text="{Binding SelectedMovie.Length, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
 
         <Label Grid.Row="4" Grid.Column="0" Content="Plakát" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,528,0" />
         <Image Grid.Row="4" Grid.Column="1" Margin="5,5,0,5" HorizontalAlignment="Left"
             Height="240" Width="180" MaxHeight="240" MaxWidth="180"
-            Source="{Binding Image, TargetNullValue={x:Null}}" />
+            Source="{Binding SelectedMovie.Image, TargetNullValue={x:Null}}" />
 
         <Button Grid.Row="5" Grid.Column="1" Content="Csere"
             HorizontalAlignment="Center" VerticalAlignment="Center"
             Width="73"  Height="21"  Margin="5"
-            Command="{Binding ChangeImageCommand}"/>
+            Command="{Binding ChangeMovieImageCommand}"/>
 
         <Button Grid.Row="6" Grid.Column="0" Content="Mégse"
         HorizontalAlignment="Left" VerticalAlignment="Center"
         Width="73"  Height="21"  Margin="5"
         IsCancel="True"
-        Command="{Binding CancelMovieEditCommand}"/>
+        Command="{Binding CancelEditMovieCommand}"/>
 
         <Button Grid.Row="6" Grid.Column="1" Content="Mentés"
         HorizontalAlignment="Right" VerticalAlignment="Center"
         Width="73"  Height="21"  Margin="5"
         IsDefault="True"
-        Command="{Binding SaveMovieEditCommand}"/>
+        Command="{Binding SaveEditMovieCommand}"/>
     </Grid>
 </Window>

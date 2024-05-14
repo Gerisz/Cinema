@@ -1,17 +1,26 @@
 ﻿using Cinema.Admin.Model;
 using Cinema.Data.Models.DTOs;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Net.Http;
-using System.Windows.Controls;
 
 namespace Cinema.Admin.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
         private readonly CinemaAPIService _service;
+        private ObservableCollection<HallViewModel> _halls;
         private ObservableCollection<MovieViewModel> _movies;
+        private ObservableCollection<ShowViewModel> _shows;
         private MovieViewModel _selectedMovie;
+        private ShowViewModel _selectedShow;
+
+        public ObservableCollection<HallViewModel> Halls
+        {
+            get { return _halls; }
+            set { _halls = value; OnPropertyChanged(); }
+        }
+
+        public List<HallViewModel> HallsForCombo { get => [.. Halls]; }
 
         public ObservableCollection<MovieViewModel> Movies
         {
@@ -19,10 +28,24 @@ namespace Cinema.Admin.ViewModel
             set { _movies = value; OnPropertyChanged(); }
         }
 
+        public List<MovieViewModel> MoviesForCombo { get => [.. Movies]; }
+
+        public ObservableCollection<ShowViewModel> Shows
+        {
+            get { return _shows; }
+            set { _shows = value; OnPropertyChanged(); }
+        }
+
         public MovieViewModel SelectedMovie
         {
             get { return _selectedMovie; }
             set { _selectedMovie = value; OnPropertyChanged(); }
+        }
+
+        public ShowViewModel SelectedShow
+        {
+            get { return _selectedShow; }
+            set { _selectedShow = value; OnPropertyChanged(); }
         }
 
         #region Commands
@@ -43,14 +66,30 @@ namespace Cinema.Admin.ViewModel
 
         #endregion
 
+        #region Show commands
+
+        public DelegateCommand RefreshShowsCommand { get; private set; }
+        public DelegateCommand AddShowCommand { get; private set; }
+        public DelegateCommand EditShowCommand { get; private set; }
+        public DelegateCommand DeleteShowCommand { get; private set; }
+
+        public DelegateCommand SaveEditShowCommand { get; private set; }
+        public DelegateCommand CancelEditShowCommand { get; private set; }
+
+        #endregion
+
         #endregion
 
         #region Events
 
         public event EventHandler LogoutSucceeded;
+
         public event EventHandler StartingMovieEdit;
         public event EventHandler FinishingMovieEdit;
         public event EventHandler StartingMovieImageChange;
+
+        public event EventHandler StartingShowEdit;
+        public event EventHandler FinishingShowEdit;
 
         #endregion
 
@@ -59,7 +98,10 @@ namespace Cinema.Admin.ViewModel
             _service = service;
 
             LogoutCommand = new DelegateCommand(async _ => await LogoutAsync());
+
+            Task.Run(LoadHallsAsync).Wait();
             Task.Run(LoadMoviesAsync).Wait();
+            Task.Run(LoadShowsAsync).Wait();
 
             RefreshMoviesCommand = new DelegateCommand(async _ => await LoadMoviesAsync());
             AddMovieCommand = new DelegateCommand(_ =>
@@ -69,13 +111,23 @@ namespace Cinema.Admin.ViewModel
                 _ => StartEditMovie());
             DeleteMovieCommand = new DelegateCommand(_ => SelectedMovie != null,
                 _ => DeleteMovie(SelectedMovie));
-
             SaveEditMovieCommand = new DelegateCommand(_ =>
                 String.IsNullOrEmpty(SelectedMovie?[nameof(MovieViewModel.Title)]),
                 _ => SaveMovieEdit());
             CancelEditMovieCommand = new DelegateCommand(_ => CancelMovieEdit());
             ChangeMovieImageCommand = new DelegateCommand(_ =>
                 StartingMovieImageChange?.Invoke(this, EventArgs.Empty));
+
+            RefreshShowsCommand = new DelegateCommand(async _ => await LoadShowsAsync());
+            AddShowCommand = new DelegateCommand(_ =>
+                !(SelectedMovie == null) && SelectedShow.Id != 0,
+                _ => AddShow());
+            EditShowCommand = new DelegateCommand(_ => SelectedShow != null,
+                _ => StartEditShow());
+            DeleteShowCommand = new DelegateCommand(_ => SelectedShow != null,
+                _ => DeleteShow(SelectedShow));
+            SaveEditShowCommand = new DelegateCommand(_ => SaveShowEdit());
+            CancelEditShowCommand = new DelegateCommand(_ => CancelShowEdit());
         }
 
         #region Authentication
@@ -96,6 +148,23 @@ namespace Cinema.Admin.ViewModel
         private void OnLogoutSuccess()
         {
             LogoutSucceeded?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Halls
+
+        private async Task LoadHallsAsync()
+        {
+            try
+            {
+                Halls = new ObservableCollection<HallViewModel>((await _service.LoadHallsAsync())
+                    .Select(m => (HallViewModel)m));
+            }
+            catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
+            {
+                OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
+            }
         }
 
         #endregion
@@ -189,6 +258,98 @@ namespace Cinema.Admin.ViewModel
                 OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
             }
             FinishingMovieEdit?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Shows
+
+        private async Task LoadShowsAsync()
+        {
+            try
+            {
+                Shows = new ObservableCollection<ShowViewModel>((await _service.LoadShowsAsync())
+                    .Select(m => (ShowViewModel)m));
+            }
+            catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
+            {
+                OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
+            }
+        }
+
+        private void AddShow()
+        {
+            var newShow = new ShowViewModel
+            {
+                Start = DateTime.UtcNow,
+                Movie = Movies.First(),
+                Hall = Halls.First(),
+                SeatIds = []
+            };
+            Shows.Add(newShow);
+            SelectedShow = newShow;
+            StartEditShow();
+        }
+
+        private void StartEditShow()
+        {
+            SelectedShow.BeginEdit();
+            StartingShowEdit?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async void DeleteShow(ShowViewModel item)
+        {
+            try
+            {
+                await _service.DeleteShowAsync(item.Id);
+                Shows.Remove(SelectedShow);
+                SelectedShow = null!;
+            }
+            catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
+            {
+                OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
+            }
+        }
+
+        private void CancelShowEdit()
+        {
+            if (SelectedShow is null || !SelectedShow.IsDirty)
+                return;
+
+            if (SelectedShow.Id == 0)
+            {
+                Shows.Remove(SelectedShow);
+                SelectedShow = null!;
+            }
+            else
+            {
+                SelectedShow.CancelEdit();
+            }
+            FinishingShowEdit?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async void SaveShowEdit()
+        {
+            try
+            {
+                if (SelectedShow.Id == 0)
+                {
+                    var itemDto = (ShowDTO)SelectedShow;
+                    await _service.CreateShowAsync(itemDto);
+                    SelectedShow.Id = itemDto.Id;
+                    SelectedShow.EndEdit();
+                }
+                else
+                {
+                    await _service.UpdateShowAsync((ShowDTO)SelectedShow);
+                    SelectedShow.EndEdit();
+                }
+            }
+            catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
+            {
+                OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
+            }
+            FinishingShowEdit?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

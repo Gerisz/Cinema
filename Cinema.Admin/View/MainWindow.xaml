@@ -39,7 +39,7 @@
                             <DataGridTextColumn Header="Rendező" Binding="{Binding Director}" />
                             <DataGridTextColumn Header="Hossz (perc)" Binding="{Binding Length}" />
                             <DataGridTextColumn Header="Felviteli dátum" Binding="{Binding Entry, StringFormat={}{0:yyyy/MM/dd}}" />
-                            <DataGridTextColumn Header="Szinopszis" Binding="{Binding Synposis}" Width="*">
+                            <DataGridTextColumn Header="Szinopszis" Binding="{Binding Synopsis}" Width="*">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -56,8 +56,36 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Új előadás">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Előadások">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding Shows}"
+                            SelectedItem="{Binding SelectedShow}"
+                            IsReadOnly="True" AutoGenerateColumns="False"
+                            VerticalContentAlignment="Stretch" SelectionMode="Single">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction
+                                        PassEventArgsToCommand="True"
+                                        Command="{Binding EditShowCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Kezdés" Binding="{Binding Start}" />
+                            <DataGridTextColumn Header="Film címe" Binding="{Binding Movie.Title}" />
+                            <DataGridTextColumn Header="Terem neve" Binding="{Binding Hall.Name}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Margin="5" Content="Előadás hozzáadása" Command="{Binding AddShowCommand}" />
+                        <Button Margin="5" Content="Előadás szerkesztése" Command="{Binding EditShowCommand}" />
+                        <Button Margin="5" Content="Előadás törlése" Command="{Binding DeleteShowCommand}" />
+                    </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Jegykiadás">
                 <Grid Background="#FFE5E5E5"/>
