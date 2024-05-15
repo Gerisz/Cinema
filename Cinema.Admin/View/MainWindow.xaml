@@ -31,15 +31,18 @@
                             <DataGridTemplateColumn Header="Image">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="{Binding Image, TargetNullValue={x:Null}}" MaxHeight="100" MaxWidth="100" />
+                                        <Image Source="{Binding Image, TargetNullValue={x:Null}}"
+                                                MaxHeight="100" MaxWidth="100" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Cím" Binding="{Binding Title}" />
                             <DataGridTextColumn Header="Rendező" Binding="{Binding Director}" />
                             <DataGridTextColumn Header="Hossz (perc)" Binding="{Binding Length}" />
-                            <DataGridTextColumn Header="Felviteli dátum" Binding="{Binding Entry, StringFormat={}{0:yyyy/MM/dd}}" />
-                            <DataGridTextColumn Header="Szinopszis" Binding="{Binding Synopsis}" Width="*">
+                            <DataGridTextColumn Header="Felviteli dátum" 
+                                    Binding="{Binding Entry, StringFormat={}{0:yyyy. MM. dd. hh:mm}}" />
+                            <DataGridTextColumn Header="Szinopszis" 
+                                    Binding="{Binding Synopsis}" Width="*">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -50,9 +53,12 @@
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Margin="5" Content="Film hozzáadása" Command="{Binding AddMovieCommand}" />
-                        <Button Margin="5" Content="Film szerkesztése" Command="{Binding EditMovieCommand}" />
-                        <Button Margin="5" Content="Film törlése" Command="{Binding DeleteMovieCommand}" />
+                        <Button Margin="5" Content="Film hozzáadása" 
+                                Command="{Binding AddMovieCommand}" />
+                        <Button Margin="5" Content="Film szerkesztése" 
+                                Command="{Binding EditMovieCommand}" />
+                        <Button Margin="5" Content="Film törlése" 
+                                Command="{Binding DeleteMovieCommand}" />
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -74,21 +80,50 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Kezdés" Binding="{Binding Start}" />
-                            <DataGridTextColumn Header="Film címe" Binding="{Binding Movie.Title}" />
-                            <DataGridTextColumn Header="Terem neve" Binding="{Binding Hall.Name}" />
+                            <DataGridTextColumn Header="Kezdés"
+                                    Binding="{Binding Start, StringFormat={}{0:yyyy. MM. dd. hh:mm}}"/>
+                            <DataGridTextColumn Header="Film" Binding="{Binding Movie}" />
+                            <DataGridTextColumn Header="Terem" Binding="{Binding Hall}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Margin="5" Content="Előadás hozzáadása" Command="{Binding AddShowCommand}" />
-                        <Button Margin="5" Content="Előadás szerkesztése" Command="{Binding EditShowCommand}" />
-                        <Button Margin="5" Content="Előadás törlése" Command="{Binding DeleteShowCommand}" />
+                        <Button Margin="5" Content="Előadás hozzáadása" 
+                                Command="{Binding AddShowCommand}" />
+                        <Button Margin="5" Content="Előadás szerkesztése" 
+                                Command="{Binding EditShowCommand}" />
+                        <Button Margin="5" Content="Előadás törlése" 
+                                Command="{Binding DeleteShowCommand}" />
                     </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Jegykiadás">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding Seats}"
+                                SelectedItem="{Binding SelectedSeat}"
+                                IsReadOnly="True" AutoGenerateColumns="False"
+                                VerticalContentAlignment="Stretch" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Sorszám" Binding="{Binding Id}" />
+                            <DataGridTextColumn Header="Sor" Binding="{Binding Row}" />
+                            <DataGridTextColumn Header="Oszlop" Binding="{Binding Column}" />
+                            <DataGridTextColumn Header="Státusz"
+                                        Binding="{Binding Status}" />
+                            <DataGridTextColumn Header="Foglaló neve"
+                                        Binding="{Binding ReservantName}" />
+                            <DataGridTextColumn Header="Foglaló telefonszáma"
+                                        Binding="{Binding ReservantPhoneNumber}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Button Margin="5" Content="Jegy kiadása" 
+                                Command="{Binding SellSeatCommand}" />
+                    </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
 

@@ -102,7 +102,7 @@ namespace Cinema.Admin.ViewModel
 
         public override String ToString()
         {
-            return $"{Name} ({RowCount}x{ColumnCount} ülés)";
+            return $"{Name} - ({RowCount}x{ColumnCount} ülés)";
         }
     }
 }

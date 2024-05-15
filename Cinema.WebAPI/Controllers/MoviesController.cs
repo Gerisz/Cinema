@@ -32,7 +32,7 @@ namespace Cinema.WebAPI.Controllers
             return Ok(movies);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetMovie")]
         public async Task<ActionResult<MovieDTO>> GetMovieAsync(Int32 id)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -59,7 +59,7 @@ namespace Cinema.WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction(nameof(GetMovieAsync), new { id = movie.Id }, movie);
+            return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
         }
 
         [Authorize]

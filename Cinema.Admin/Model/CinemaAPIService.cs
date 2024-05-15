@@ -105,6 +105,28 @@ namespace Cinema.Admin.Model
 
         #endregion
 
+        #region Seats
+
+        public async Task<IEnumerable<SeatDTO>> LoadSeatsAsync()
+        {
+            HttpResponseMessage response = await _client.GetAsync("api/Seats");
+
+            if (!response.IsSuccessStatusCode)
+                throw new NetworkException("Service returned response: " + response.StatusCode);
+
+            return await response.Content.ReadAsAsync<IEnumerable<SeatDTO>>();
+        }
+        public async Task SellSeatAsync(SeatDTO seat)
+        {
+            HttpResponseMessage response =
+                await _client.PutAsJsonAsync($"api/Seats/{seat.Id}", "");
+
+            if (!response.IsSuccessStatusCode)
+                throw new NetworkException("Service returned response: " + response);
+        }
+
+        #endregion
+
         #region Shows
 
         public async Task<IEnumerable<ShowDTO>> LoadShowsAsync()

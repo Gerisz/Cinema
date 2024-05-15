@@ -10,8 +10,10 @@ namespace Cinema.Admin.ViewModel
         private readonly CinemaAPIService _service;
         private ObservableCollection<HallViewModel> _halls;
         private ObservableCollection<MovieViewModel> _movies;
+        private ObservableCollection<SeatViewModel> _seats;
         private ObservableCollection<ShowViewModel> _shows;
         private MovieViewModel _selectedMovie;
+        private SeatViewModel _selectedSeat;
         private ShowViewModel _selectedShow;
 
         public ObservableCollection<HallViewModel> Halls
@@ -30,6 +32,16 @@ namespace Cinema.Admin.ViewModel
 
         public List<MovieViewModel> MoviesForCombo { get => [.. Movies]; }
 
+        public ObservableCollection<SeatViewModel> Seats
+        {
+            get
+            {
+                return new ObservableCollection<SeatViewModel>(
+                _seats.Where(s => (_selectedShow ?? _shows[0]).SeatIds.Contains(s.Id)));
+            }
+            set { _seats = value; OnPropertyChanged(); }
+        }
+
         public ObservableCollection<ShowViewModel> Shows
         {
             get { return _shows; }
@@ -42,10 +54,21 @@ namespace Cinema.Admin.ViewModel
             set { _selectedMovie = value; OnPropertyChanged(); }
         }
 
+        public SeatViewModel SelectedSeat
+        {
+            get { return _selectedSeat; }
+            set { _selectedSeat = value; OnPropertyChanged(); }
+        }
+
         public ShowViewModel SelectedShow
         {
             get { return _selectedShow; }
-            set { _selectedShow = value; OnPropertyChanged(); }
+            set
+            {
+                _selectedShow = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Seats));
+            }
         }
 
         #region Commands
@@ -78,6 +101,13 @@ namespace Cinema.Admin.ViewModel
 
         #endregion
 
+        #region Seat commands
+
+        public DelegateCommand SelectShowCommand { get; private set; }
+        public DelegateCommand SellSeatCommand { get; private set; }
+
+        #endregion
+
         #endregion
 
         #region Events
@@ -102,6 +132,7 @@ namespace Cinema.Admin.ViewModel
             Task.Run(LoadHallsAsync).Wait();
             Task.Run(LoadMoviesAsync).Wait();
             Task.Run(LoadShowsAsync).Wait();
+            Task.Run(LoadSeatsAsync).Wait();
 
             RefreshMoviesCommand = new DelegateCommand(async _ => await LoadMoviesAsync());
             AddMovieCommand = new DelegateCommand(_ =>
@@ -128,6 +159,9 @@ namespace Cinema.Admin.ViewModel
                 _ => DeleteShow(SelectedShow));
             SaveEditShowCommand = new DelegateCommand(_ => SaveShowEdit());
             CancelEditShowCommand = new DelegateCommand(_ => CancelShowEdit());
+
+            SellSeatCommand = new DelegateCommand(_ => SelectedShow != null,
+                _ => SellSeat());
         }
 
         #region Authentication
@@ -258,6 +292,37 @@ namespace Cinema.Admin.ViewModel
                 OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
             }
             FinishingMovieEdit?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Seats
+
+        private async Task LoadSeatsAsync()
+        {
+            try
+            {
+                Seats = new ObservableCollection<SeatViewModel>((await _service.LoadSeatsAsync())
+                    .Select(m => (SeatViewModel)m));
+            }
+            catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
+            {
+                OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
+            }
+        }
+
+        private async void SellSeat()
+        {
+            try
+            {
+                await _service.SellSeatAsync((SeatDTO)SelectedSeat);
+                Shows.Remove(SelectedShow);
+                SelectedShow = null!;
+            }
+            catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
+            {
+                OnMessageApplication($"Unexpected error occurred! ({ex.Message})");
+            }
         }
 
         #endregion

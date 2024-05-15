@@ -33,7 +33,7 @@ namespace Cinema.WebAPI.Controllers
             return Ok(shows);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetShow")]
         public async Task<ActionResult<ShowDTO>> GetShowAsync(Int32 id)
         {
             var show = _context.Shows.FindAsync(id);
@@ -55,9 +55,7 @@ namespace Cinema.WebAPI.Controllers
                 return BadRequest($"No movie with ID {showDTO.Movie.Id} has been found.");
             if (hall == null)
                 return BadRequest($"No hall with ID {showDTO.Hall.Id} has been found.");
-            if (_context.Shows
-                .Any(s => (showDTO.Start - s.Start) < new TimeSpan(0, 15, 0)
-                    && showDTO.Hall.Id == s.HallId))
+            if (await CheckShowForConflicts(showDTO))
                 return BadRequest($"There must be at least " +
                     $"15 minutes between two shows in the same hall!");
 
@@ -73,7 +71,7 @@ namespace Cinema.WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction(nameof(GetShowAsync), new { id = show.Id }, show);
+            return CreatedAtAction("GetShow", new { id = show.Id }, show);
         }
         [Authorize]
         [HttpPut("{id}")]
@@ -134,6 +132,7 @@ namespace Cinema.WebAPI.Controllers
         {
             var movie = await _context.Movies.FindAsync(show.Movie.Id);
             return _context.Shows
+                .ToList()
                 .Any(s => s.Id != show.Id &&
                     (From(s) < show.Start && show.Start < To(s))
                         || (From(s) < show.Start + new TimeSpan(0, movie!.Length, 0)

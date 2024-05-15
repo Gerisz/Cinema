@@ -156,5 +156,10 @@ namespace Cinema.Admin.ViewModel
             Hall = (HallDTO)vm.Hall,
             SeatIds = vm.SeatIds
         };
+
+        public override String ToString()
+        {
+            return $"{Movie.Title}: {Start} - {Start + new TimeSpan(0, Movie.Length, 0)}";
+        }
     }
 }
