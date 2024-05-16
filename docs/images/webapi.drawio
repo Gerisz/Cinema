@@ -1,0 +1,100 @@
+<mxfile host="Electron" modified="2024-05-16T07:52:58.445Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.0 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="QPop8zPzbtmRqzAU9reg" version="24.4.0" type="device">
+  <diagram name="1 oldal" id="ZEmaSlT312Er0jaVH2z7">
+    <mxGraphModel dx="1098" dy="868" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gcmaUgPbYGbfj1D9JfHr-28" value="&lt;font&gt;Controllers.MoviesController: ControllerBase&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="520" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="gcmaUgPbYGbfj1D9JfHr-29" value="- _context: CinemaDbContext" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" parent="gcmaUgPbYGbfj1D9JfHr-28" vertex="1">
+          <mxGeometry y="26" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="gcmaUgPbYGbfj1D9JfHr-30" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="gcmaUgPbYGbfj1D9JfHr-28" vertex="1">
+          <mxGeometry y="47" width="520" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="4pJp5S-DtTJx7jMk60ZQ-3" value="+ MoviesController(CinemaDbContext)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" parent="gcmaUgPbYGbfj1D9JfHr-28" vertex="1">
+          <mxGeometry y="55" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="4pJp5S-DtTJx7jMk60ZQ-1" value="+ GetMoviesAsync(): Task&amp;lt;ActionResult&amp;lt;IEnumerable&amp;lt;MovieDTO&amp;gt;&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" parent="gcmaUgPbYGbfj1D9JfHr-28" vertex="1">
+          <mxGeometry y="76" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-9" value="+ GetMovieAsync(Int32): Task&amp;lt;ActionResult&amp;lt;MovieDTO&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="gcmaUgPbYGbfj1D9JfHr-28">
+          <mxGeometry y="97" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-10" value="+ PostMovieAsync(MovieDTO): Task&amp;lt;IActionResult&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="gcmaUgPbYGbfj1D9JfHr-28">
+          <mxGeometry y="118" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-11" value="+ PutMovieAsync(Int32, MovieDTO): Task&amp;lt;IActionResult&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="gcmaUgPbYGbfj1D9JfHr-28">
+          <mxGeometry y="139" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="4pJp5S-DtTJx7jMk60ZQ-4" value="+ DeleteMovieAsync(Int32): Task&amp;lt;IActionResult&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" parent="gcmaUgPbYGbfj1D9JfHr-28" vertex="1">
+          <mxGeometry y="160" width="520" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-1" value="&lt;font&gt;Controllers.HallsController: ControllerBase&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="280" width="440" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-2" value="- _context: CinemaDbContext" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-1">
+          <mxGeometry y="26" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-1">
+          <mxGeometry y="47" width="440" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-4" value="+ HallsController(CinemaDbContext)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-1">
+          <mxGeometry y="55" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-7" value="+ GetHallsAsync(): Task&amp;lt;ActionResult&amp;lt;IEnumerable&amp;lt;HallDTO&amp;gt;&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-1">
+          <mxGeometry y="76" width="440" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-12" value="&lt;font&gt;Controllers.SeatsController: ControllerBase&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="259" width="520" height="123" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-13" value="- _context: CinemaDbContext" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-12">
+          <mxGeometry y="26" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-14" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-12">
+          <mxGeometry y="47" width="520" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-15" value="+&amp;nbsp;&lt;span style=&quot;font-weight: 700; text-align: center;&quot;&gt;SeatsController&lt;/span&gt;(CinemaDbContext)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-12">
+          <mxGeometry y="55" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-18" value="+ GetSeatsAsync(): Task&amp;lt;ActionResult&amp;lt;IEnumerable&amp;lt;HallDTO&amp;gt;&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-12">
+          <mxGeometry y="76" width="520" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-17" value="+ SellSeatsAsync(Int32): Task&amp;lt;IActionResult&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-12">
+          <mxGeometry y="97" width="520" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-19" value="Controllers.ShowsController: ControllerBase" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="40" width="440" height="207" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-20" value="- _context: CinemaDbContext" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="26" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-21" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="47" width="440" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-22" value="+ ShowsController(CinemaDbContext)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="55" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-23" value="+ GetShowsAsync(): Task&amp;lt;ActionResult&amp;lt;IEnumerable&amp;lt;ShowDTO&amp;gt;&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="76" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-24" value="+ GetShowAsync(Int32): Task&amp;lt;ActionResult&amp;lt;ShowDTO&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="97" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-25" value="+ PostShowAsync(ShowDTO): Task&amp;lt;IActionResult&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="118" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-26" value="+ PutShowAsync(Int32, ShowDTO): Task&amp;lt;IActionResult&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="139" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-28" value="+ DeleteShowAsync(Int32): Task&amp;lt;IActionResult&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="160" width="440" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="Y2DyIk2AbkiyXJpN9mBf-27" value="- CheckShowForConflitcts(ShowDTO): Task&amp;lt;Boolean&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Courier New;" vertex="1" parent="Y2DyIk2AbkiyXJpN9mBf-19">
+          <mxGeometry y="181" width="440" height="26" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
