@@ -1,5 +1,6 @@
 ﻿using Cinema.Admin.Model;
 using Cinema.Data.Models.DTOs;
+using Cinema.Data.Models.Tables.Enums;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 
@@ -316,8 +317,7 @@ namespace Cinema.Admin.ViewModel
             try
             {
                 await _service.SellSeatAsync((SeatDTO)SelectedSeat);
-                Shows.Remove(SelectedShow);
-                SelectedShow = null!;
+                SelectedSeat.Status = Status.Sold;
             }
             catch (Exception ex) when (ex is NetworkException || ex is HttpRequestException)
             {
