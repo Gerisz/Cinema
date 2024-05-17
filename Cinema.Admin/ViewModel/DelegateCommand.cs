@@ -20,9 +20,7 @@ namespace Cinema.Admin.ViewModel
         public DelegateCommand(Func<Object, Boolean> canExecute, Action<Object> execute)
         {
             if (execute == null)
-            {
                 throw new ArgumentNullException(nameof(execute));
-            }
 
             _execute = execute;
             _canExecute = canExecute;

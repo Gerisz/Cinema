@@ -116,6 +116,7 @@ namespace Cinema.Admin.Model
 
             return await response.Content.ReadAsAsync<IEnumerable<SeatDTO>>();
         }
+
         public async Task SellSeatAsync(SeatDTO seat)
         {
             HttpResponseMessage response =

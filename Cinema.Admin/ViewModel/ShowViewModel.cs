@@ -41,39 +41,6 @@ namespace Cinema.Admin.ViewModel
             }
         }
 
-        public DateTime StartDate
-        {
-            get => _start.Date;
-            set
-            {
-                _start
-                    = new DateTime(DateOnly.FromDateTime(value), TimeOnly.FromDateTime(_start));
-                OnPropertyChanged();
-            }
-        }
-
-        public Int32 StartHour
-        {
-            get => _start.Hour;
-            set
-            {
-                _start =
-                    new DateTime(_start.Year, _start.Month, _start.Day, value, _start.Minute, 0);
-                OnPropertyChanged();
-            }
-        }
-
-        public Int32 StartMinute
-        {
-            get => _start.Minute;
-            set
-            {
-                _start =
-                    new DateTime(_start.Year, _start.Month, _start.Day, _start.Hour, value, 0);
-                OnPropertyChanged();
-            }
-        }
-
         public MovieViewModel Movie
         {
             get => _movie;
