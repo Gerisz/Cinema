@@ -30,7 +30,7 @@ namespace Cinema.WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut]
+        [HttpPut("{seatId}")]
         public async Task<IActionResult> SellSeatAsync(Int32 seatId)
         {
             var seat = await _context.Seats.FindAsync(seatId);

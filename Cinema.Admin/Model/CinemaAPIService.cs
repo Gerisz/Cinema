@@ -1,4 +1,5 @@
-﻿using Cinema.Data.Models.DTOs;
+﻿using Azure;
+using Cinema.Data.Models.DTOs;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -123,6 +124,7 @@ namespace Cinema.Admin.Model
                 await _client.PutAsJsonAsync($"api/Seats/{seat.Id}", "");
 
             if (!response.IsSuccessStatusCode)
+                if (response.StatusCode == )
                 throw new NetworkException("Service returned response: " + response);
         }
 
