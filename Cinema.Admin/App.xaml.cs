@@ -11,7 +11,7 @@ namespace Cinema.Admin
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, IDisposable
     {
         private CinemaAPIService _service = null!;
         private MainViewModel _mainViewModel = null!;
@@ -137,6 +137,11 @@ namespace Cinema.Admin
             {
                 _showEditorWindow.Close();
             }
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 

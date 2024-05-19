@@ -36,10 +36,10 @@ namespace Cinema.Admin.ViewModel
             IsLoading = false;
 
             LoginCommand = new DelegateCommand(_ => !IsLoading,
-                    param => Login(param as PasswordBox ?? new PasswordBox()));
+                    async param => await LoginAsync(param as PasswordBox ?? new PasswordBox()));
         }
 
-        private async void Login(PasswordBox passwordBox)
+        private async Task LoginAsync(PasswordBox passwordBox)
         {
             if (passwordBox == null)
                 return;
