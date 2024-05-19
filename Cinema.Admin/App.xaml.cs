@@ -13,13 +13,13 @@ namespace Cinema.Admin
     /// </summary>
     public partial class App : Application
     {
-        private CinemaAPIService _service;
-        private MainViewModel _mainViewModel;
-        private LoginViewModel _loginViewModel;
-        private MainWindow _mainView;
-        private LoginWindow _loginView;
-        private MovieEditorWindow _movieEditorWindow;
-        private ShowEditorWindow _showEditorWindow;
+        private CinemaAPIService _service = null!;
+        private MainViewModel _mainViewModel = null!;
+        private LoginViewModel _loginViewModel = null!;
+        private MainWindow _mainView = null!;
+        private LoginWindow _loginView = null!;
+        private MovieEditorWindow _movieEditorWindow = null!;
+        private ShowEditorWindow _showEditorWindow = null!;
 
         public App()
         {
@@ -63,34 +63,34 @@ namespace Cinema.Admin
             _loginView.Show();
         }
 
-        private void LoginView_Closed(Object sender, EventArgs e)
+        private void LoginView_Closed(Object? sender, EventArgs e)
         {
             Shutdown();
         }
 
-        private void ViewModel_LoginSucceeded(Object sender, EventArgs e)
+        private void ViewModel_LoginSucceeded(Object? sender, EventArgs e)
         {
             _loginView.Hide();
             _mainView.Show();
         }
 
-        private void ViewModel_LoginFailed(Object sender, EventArgs e)
+        private void ViewModel_LoginFailed(Object? sender, EventArgs e)
         {
             MessageBox.Show("Bejelenkezés sikertelen!", "Cinema", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
-        private void ViewModel_LogoutSucceeded(Object sender, EventArgs e)
+        private void ViewModel_LogoutSucceeded(Object? sender, EventArgs e)
         {
             _mainView.Hide();
             _loginView.Show();
         }
 
-        private void ViewModel_MessageApplication(Object sender, MessageEventArgs e)
+        private void ViewModel_MessageApplication(Object? sender, MessageEventArgs e)
         {
             MessageBox.Show(e.Message, "Cinema", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
-        private void ViewModel_StartingMovieEdit(Object sender, EventArgs e)
+        private void ViewModel_StartingMovieEdit(Object? sender, EventArgs e)
         {
             _movieEditorWindow = new MovieEditorWindow
             {
@@ -99,7 +99,7 @@ namespace Cinema.Admin
             _movieEditorWindow.ShowDialog();
         }
 
-        private void ViewModel_FinishingMovieEdit(Object sender, EventArgs e)
+        private void ViewModel_FinishingMovieEdit(Object? sender, EventArgs e)
         {
             if (_movieEditorWindow.IsActive)
             {
@@ -107,7 +107,7 @@ namespace Cinema.Admin
             }
         }
 
-        private async void ViewModel_StartingMovieImageChange(Object sender, EventArgs e)
+        private async void ViewModel_StartingMovieImageChange(Object? sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
             {
@@ -122,7 +122,7 @@ namespace Cinema.Admin
             }
         }
 
-        private void ViewModel_StartingShowEdit(Object sender, EventArgs e)
+        private void ViewModel_StartingShowEdit(Object? sender, EventArgs e)
         {
             _showEditorWindow = new ShowEditorWindow
             {
@@ -131,7 +131,7 @@ namespace Cinema.Admin
             _showEditorWindow.ShowDialog();
         }
 
-        private void ViewModel_FinishingShowEdit(Object sender, EventArgs e)
+        private void ViewModel_FinishingShowEdit(Object? sender, EventArgs e)
         {
             if (_showEditorWindow.IsActive)
             {

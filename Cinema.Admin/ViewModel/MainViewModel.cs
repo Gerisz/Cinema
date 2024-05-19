@@ -8,14 +8,14 @@ namespace Cinema.Admin.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly CinemaAPIService _service;
-        private ObservableCollection<HallViewModel> _halls;
-        private ObservableCollection<MovieViewModel> _movies;
-        private ObservableCollection<SeatViewModel> _seats;
-        private ObservableCollection<ShowViewModel> _shows;
-        private MovieViewModel _selectedMovie;
-        private SeatViewModel _selectedSeat;
-        private ShowViewModel _selectedShow;
+        private readonly CinemaAPIService _service = null!;
+        private ObservableCollection<HallViewModel> _halls = null!;
+        private ObservableCollection<MovieViewModel> _movies = null!;
+        private ObservableCollection<SeatViewModel> _seats = null!;
+        private ObservableCollection<ShowViewModel> _shows = null!;
+        private MovieViewModel _selectedMovie = null!;
+        private SeatViewModel _selectedSeat = null!;
+        private ShowViewModel _selectedShow = null!;
 
         public ObservableCollection<HallViewModel> Halls
         {
@@ -75,7 +75,6 @@ namespace Cinema.Admin.ViewModel
         #region Commands
 
         public DelegateCommand LogoutCommand { get; private set; }
-        public DelegateCommand TabChangedCommand { get; private set; }
 
         #region Movie commands
 
@@ -104,7 +103,6 @@ namespace Cinema.Admin.ViewModel
 
         #region Seat commands
 
-        public DelegateCommand SelectShowCommand { get; private set; }
         public DelegateCommand SellSeatCommand { get; private set; }
 
         #endregion
@@ -113,14 +111,14 @@ namespace Cinema.Admin.ViewModel
 
         #region Events
 
-        public event EventHandler LogoutSucceeded;
+        public event EventHandler LogoutSucceeded = null!;
 
-        public event EventHandler StartingMovieEdit;
-        public event EventHandler FinishingMovieEdit;
-        public event EventHandler StartingMovieImageChange;
+        public event EventHandler StartingMovieEdit = null!;
+        public event EventHandler FinishingMovieEdit = null!;
+        public event EventHandler StartingMovieImageChange = null!;
 
-        public event EventHandler StartingShowEdit;
-        public event EventHandler FinishingShowEdit;
+        public event EventHandler StartingShowEdit = null!;
+        public event EventHandler FinishingShowEdit = null!;
 
         #endregion
 
@@ -142,10 +140,10 @@ namespace Cinema.Admin.ViewModel
             EditMovieCommand = new DelegateCommand(_ => SelectedMovie != null,
                 _ => StartEditMovie());
             DeleteMovieCommand = new DelegateCommand(_ => SelectedMovie != null,
-                _ => DeleteMovie(SelectedMovie));
+                async _ => await DeleteMovieAsync(SelectedMovie));
             SaveEditMovieCommand = new DelegateCommand(_ =>
                 String.IsNullOrEmpty(SelectedMovie?[nameof(MovieViewModel.Title)]),
-                _ => SaveMovieEdit());
+                async _ => await SaveMovieEditAsync());
             CancelEditMovieCommand = new DelegateCommand(_ => CancelMovieEdit());
             ChangeMovieImageCommand = new DelegateCommand(_ =>
                 StartingMovieImageChange?.Invoke(this, EventArgs.Empty));
@@ -157,12 +155,12 @@ namespace Cinema.Admin.ViewModel
             EditShowCommand = new DelegateCommand(_ => SelectedShow != null,
                 _ => StartEditShow());
             DeleteShowCommand = new DelegateCommand(_ => SelectedShow != null,
-                _ => DeleteShow(SelectedShow));
-            SaveEditShowCommand = new DelegateCommand(_ => SaveShowEdit());
+                async _ => await DeleteShowAsync(SelectedShow));
+            SaveEditShowCommand = new DelegateCommand(async _ => await SaveShowEditAsync());
             CancelEditShowCommand = new DelegateCommand(_ => CancelShowEdit());
 
             SellSeatCommand = new DelegateCommand(_ => SelectedShow != null,
-                _ => SellSeat());
+                async _ => await SellSeatAsync());
         }
 
         #region Authentication
@@ -240,7 +238,7 @@ namespace Cinema.Admin.ViewModel
             StartingMovieEdit?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void DeleteMovie(MovieViewModel item)
+        private async Task DeleteMovieAsync(MovieViewModel item)
         {
             try
             {
@@ -271,7 +269,7 @@ namespace Cinema.Admin.ViewModel
             FinishingMovieEdit?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void SaveMovieEdit()
+        private async Task SaveMovieEditAsync()
         {
             try
             {
@@ -312,7 +310,7 @@ namespace Cinema.Admin.ViewModel
             }
         }
 
-        private async void SellSeat()
+        private async Task SellSeatAsync()
         {
             try
             {
@@ -362,7 +360,7 @@ namespace Cinema.Admin.ViewModel
             StartingShowEdit?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void DeleteShow(ShowViewModel item)
+        private async Task DeleteShowAsync(ShowViewModel item)
         {
             try
             {
@@ -393,7 +391,7 @@ namespace Cinema.Admin.ViewModel
             FinishingShowEdit?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void SaveShowEdit()
+        private async Task SaveShowEditAsync()
         {
             try
             {

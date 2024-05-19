@@ -7,7 +7,7 @@ namespace Cinema.Admin.ViewModel
         private readonly Action<Object> _execute;
         private readonly Func<Object, Boolean> _canExecute;
 
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
@@ -26,19 +26,19 @@ namespace Cinema.Admin.ViewModel
             _canExecute = canExecute;
         }
 
-        public Boolean CanExecute(Object parameter)
+        public Boolean CanExecute(Object? parameter)
         {
-            return _canExecute == null ? true : _canExecute(parameter);
+            return _canExecute == null ? true : _canExecute(parameter!);
         }
 
-        public void Execute(Object parameter)
+        public void Execute(Object? parameter)
         {
             if (!CanExecute(parameter))
             {
                 throw new InvalidOperationException("Command execution is disabled.");
             }
 
-            _execute(parameter);
+            _execute(parameter!);
         }
     }
 }

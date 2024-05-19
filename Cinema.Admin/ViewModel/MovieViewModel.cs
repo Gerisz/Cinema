@@ -82,7 +82,7 @@ namespace Cinema.Admin.ViewModel
             }
         }
 
-        public Byte[] Image
+        public Byte[]? Image
         {
             get => _image;
             set

@@ -23,9 +23,8 @@ namespace Cinema.Admin.ViewModel
             }
         }
 
-        public event EventHandler LoginSucceeded;
-
-        public event EventHandler LoginFailed;
+        public event EventHandler LoginSucceeded = null!;
+        public event EventHandler LoginFailed = null!;
 
         public LoginViewModel(CinemaAPIService model)
         {
@@ -37,10 +36,10 @@ namespace Cinema.Admin.ViewModel
             IsLoading = false;
 
             LoginCommand = new DelegateCommand(_ => !IsLoading,
-                    param => LoginAsync(param as PasswordBox ?? new PasswordBox()));
+                    param => Login(param as PasswordBox ?? new PasswordBox()));
         }
 
-        private async void LoginAsync(PasswordBox passwordBox)
+        private async void Login(PasswordBox passwordBox)
         {
             if (passwordBox == null)
                 return;

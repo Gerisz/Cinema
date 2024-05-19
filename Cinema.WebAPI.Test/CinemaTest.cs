@@ -1,8 +1,12 @@
 using Cinema.Data.Models;
 using Cinema.Data.Models.DTOs;
+using Cinema.Data.Models.Tables.Enums;
+using Cinema.Data.Models.Tables;
 using Cinema.WebAPI.Controllers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Cinema.WebAPI.Test
 {
@@ -14,6 +18,8 @@ namespace Cinema.WebAPI.Test
         private readonly SeatsController _seatsController;
         private readonly ShowsController _showsController;
 
+        private static readonly Random _random = new();
+
         public CinemaTest()
         {
             var options = new DbContextOptionsBuilder<CinemaDbContext>()
@@ -21,7 +27,7 @@ namespace Cinema.WebAPI.Test
                 .Options;
 
             _context = new CinemaDbContext(options);
-            TestDbInitializer.InitializeAsync(_context);
+            Task.Run(InitializeAsync).Wait();
 
             /* 
              * Ezzel az utasítással elengedjük az adatbázis objektumainak követését (tracking).
@@ -34,6 +40,81 @@ namespace Cinema.WebAPI.Test
             _moviesController = new MoviesController(_context);
             _seatsController = new SeatsController(_context);
             _showsController = new ShowsController(_context);
+        }
+
+        [Fact(Skip = "Method used to initialize the database used by tests.")]
+        public async Task InitializeAsync()
+        {
+            if (_context.Shows.Any(s => s.Start.Date == DateTime.Today))
+                return;
+
+            List<Movie> defaultMovies =
+                JsonSerializer.Deserialize<List<Movie>>(
+                    File.ReadAllText(
+                        Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                        "Models\\DefaultValues\\movies.json"))
+                ) ?? [];
+
+            List<Hall> defaultHalls =
+                [
+                    new Hall
+                    {
+                        Name = "Nagyterem",
+                        RowCount = 10,
+                        ColumnCount = 20
+                    },
+                    new Hall
+                    {
+                        Name = "Kisterem 1",
+                        RowCount = 8,
+                        ColumnCount = 10,
+                    },
+                    new Hall
+                    {
+                        Name = "Kisterem 2",
+                        RowCount = 8,
+                        ColumnCount = 10,
+                    }
+                ];
+
+            List<Show> defaultShows = [];
+            foreach (Movie movie in defaultMovies)
+            {
+                Int32 showCount = _random.Next(2, 10 + 1);
+                for (int i = 0; i < showCount; i++)
+                {
+                    DateTime from = DateTime.Today.AddDays(-1);
+                    DateTime to = DateTime.Today.AddDays(1);
+                    Int32 showRange = (to - from).Days * 24;
+                    DateTime showStart = from.AddHours(_random.Next(showRange));
+                    defaultShows.Add(new Show
+                    {
+                        Start = showStart,
+                        Movie = movie,
+                        Hall = defaultHalls[_random.Next(defaultHalls.Count())]
+                    });
+                }
+            }
+
+            List<Seat> defaultSeats = [];
+            foreach (Show show in defaultShows)
+                for (int i = 0; i < show.Hall.RowCount; i++)
+                    for (int j = 0; j < show.Hall.ColumnCount; j++)
+                        defaultSeats.Add(new Seat
+                        {
+                            Show = show,
+                            Hall = show.Hall,
+                            Row = i + 1,
+                            Column = j + 1,
+                            Status = _random.Next(10) == 9 ? Status.Reserved : Status.Free
+                        });
+
+            await _context.AddRangeAsync(defaultMovies);
+            await _context.AddRangeAsync(defaultHalls);
+            await _context.AddRangeAsync(defaultShows);
+            await _context.AddRangeAsync(defaultSeats);
+
+            await _context.SaveChangesAsync();
         }
 
         public void Dispose()

@@ -5,8 +5,8 @@ namespace Cinema.Admin.ViewModel
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<MessageEventArgs> MessageApplication;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler<MessageEventArgs> MessageApplication = null!;
 
         protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = null!)
         {

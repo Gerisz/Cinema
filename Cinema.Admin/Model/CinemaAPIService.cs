@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 namespace Cinema.Admin.Model
 {
-    public class CinemaAPIService
+    public class CinemaAPIService : IDisposable
     {
         private readonly HttpClient _client;
 
@@ -166,6 +166,11 @@ namespace Cinema.Admin.Model
 
             if (!response.IsSuccessStatusCode)
                 throw new NetworkException("Service returned response: " + response);
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
