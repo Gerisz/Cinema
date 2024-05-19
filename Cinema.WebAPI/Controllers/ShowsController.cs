@@ -71,7 +71,7 @@ namespace Cinema.WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction("GetShow", new { id = show.Id }, show);
+            return CreatedAtAction("GetShow", new { id = show.Id }, ShowDTO.Create(show));
         }
         [Authorize]
         [HttpPut("{id}")]
@@ -131,13 +131,19 @@ namespace Cinema.WebAPI.Controllers
         private async Task<Boolean> CheckShowForConflicts(ShowDTO show)
         {
             var movie = await _context.Movies.FindAsync(show.Movie.Id);
-            return _context.Shows
-                .ToList()
-                .Any(s => s.Id != show.Id &&
-                    (From(s) < show.Start && show.Start < To(s))
-                        || (From(s) < show.Start + new TimeSpan(0, movie!.Length, 0)
-                            && show.Start + new TimeSpan(0, movie!.Length, 0) < To(s))
-                    && show.Hall.Id == s.HallId);
+
+            try
+            {
+
+                return _context.Shows
+                    .ToList()
+                    .Any(s => s.Id != show.Id &&
+                        (From(s) < show.Start && show.Start < To(s))
+                            || (From(s) < show.Start + new TimeSpan(0, movie!.Length, 0)
+                                && show.Start + new TimeSpan(0, movie!.Length, 0) < To(s))
+                        && show.Hall.Id == s.HallId);
+            }
+            catch (Exception) { return false; }
         }
 
         private DateTime From(Show show)

@@ -3,7 +3,7 @@ using Cinema.Data.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cinema.Web.Controllers
+namespace Cinema.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

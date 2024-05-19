@@ -4,6 +4,7 @@ using Cinema.Data.Models.Tables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Cinema.WebAPI.Controllers
 {
@@ -49,6 +50,9 @@ namespace Cinema.WebAPI.Controllers
         {
             var movie = new Movie(movieDTO);
 
+            if (movie.Title.IsNullOrEmpty())
+                return BadRequest("Movie must have a title!");
+
             try
             {
                 await _context.Movies.AddAsync(movie);
@@ -59,7 +63,7 @@ namespace Cinema.WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
+            return CreatedAtAction("GetMovie", new { id = movie.Id }, MovieDTO.Create(movie));
         }
 
         [Authorize]

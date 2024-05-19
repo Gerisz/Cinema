@@ -124,7 +124,6 @@ namespace Cinema.Admin.Model
                 await _client.PutAsJsonAsync($"api/Seats/{seat.Id}", "");
 
             if (!response.IsSuccessStatusCode)
-                if (response.StatusCode == )
                 throw new NetworkException("Service returned response: " + response);
         }
 

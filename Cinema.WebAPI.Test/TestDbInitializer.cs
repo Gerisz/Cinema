@@ -1,24 +1,20 @@
-﻿using Cinema.Data.Models.Tables;
+﻿using Cinema.Data.Models;
 using Cinema.Data.Models.Tables.Enums;
+using Cinema.Data.Models.Tables;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using System.Text.Json;
 
-namespace Cinema.Data.Models
+namespace Cinema.WebAPI.Test
 {
-    public static class DbInitializer
+    public static class TestDbInitializer
     {
         private static readonly Random _random = new();
 
-        public static async Task InitializeAsync(CinemaDbContext context, String imageDirectory)
+        public static async void InitializeAsync(CinemaDbContext context)
         {
-            await context.Database.MigrateAsync();
-
             if (context.Shows.Any(s => s.Start.Date == DateTime.Today))
                 return;
-
-            var images = Directory.GetFiles(imageDirectory);
 
             List<Movie> defaultMovies =
                 JsonSerializer.Deserialize<List<Movie>>(
@@ -28,12 +24,6 @@ namespace Cinema.Data.Models
                 ) ?? [];
 
             Int32 index = 0;
-
-            defaultMovies
-                .OrderBy(m => m.Title)
-                .ToList()
-                .ForEach(m => m.Image = File.Exists(images[index])
-                    ? File.ReadAllBytes(images[index++]) : null);
 
             List<Hall> defaultHalls =
                 [
