@@ -115,4 +115,14 @@
 				\includegraphics[width=\textwidth]{database}
 		\caption{Az adatbázis sémájának diagramja}
 	\end{figure}
+	\subsection*{Tesztelés}
+	A webszolgáltatás funkcionalitása egységtesztek segítségével lett ellenőrizve a \texttt{Cinema.WebAPI.Test} projektben található \texttt{CinemaTest} osztályban. Ehhez 6 függvény áll a rendelkezésre:
+	\begin{itemize}
+		\item \texttt{PostMovieTest}: Új film felvitele esetén az valóban megjelenik az adatbázisban tároltak között.
+		\item \texttt{PostMovieWithEmptyTitleTest}: Új film felvitele esetén ha annak nem adunk meg címek, akkor az nem jelenik meg az adatbázisban.
+		\item \texttt{PostShowTest}: Új előadás felvitele esetén az valóban megjelenik az adatbázisban tároltak között. 
+		\item \texttt{PostShowTwiceTest}: Két ugyanabban az időben és helyen rendezett új előadás felvitele esetén az első valóban megjelenik az adatbázisban tároltak között, viszont a második nem.
+		\item \texttt{SellSeatTest}: Jegy eladása esetén az sikeresen eladásra kerül és az ülés állapota is eladott lesz.
+		\item \texttt{SellSeatTwiceTest}: Jegy kétszeri eladása esetén először sikeres, majd sikertelen lesz az akció.
+	\end{itemize}
 \end{document}
